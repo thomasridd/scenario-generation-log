@@ -1,0 +1,38 @@
+{
+  "name": "scenario-generation-log",
+  "version": "1.0.0",
+  "description": "Standalone service for logging and browsing test scenarios seeded by data-seeding scripts",
+  "private": true,
+  "main": "dist/index.js",
+  "scripts": {
+    "predev": "npm run copy-assets && npm run build:css",
+    "dev": "concurrently -k -n css,server -c cyan,green \"npm:build:css:watch\" \"tsx watch src/index.ts\"",
+    "prebuild": "npm run copy-assets",
+    "build": "npm run build:css && npm run build:ts",
+    "build:ts": "tsc",
+    "copy-assets": "node scripts/copy-assets.js",
+    "build:css": "sass --load-path=. --load-path=node_modules scss/app.scss:public/css/app.css --no-source-map --style=compressed",
+    "build:css:watch": "sass --load-path=. --load-path=node_modules scss/app.scss:public/css/app.css --no-source-map --watch",
+    "start": "node dist/index.js",
+    "migrate": "tsx scripts/migrate.ts"
+  },
+  "dependencies": {
+    "@ministryofjustice/frontend": "^10.0.1",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "govuk-frontend": "^6.4.0",
+    "nunjucks": "^3.2.4",
+    "pg": "^8.12.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.14.10",
+    "@types/nunjucks": "^3.2.6",
+    "@types/pg": "^8.11.6",
+    "concurrently": "^8.2.2",
+    "sass": "^1.77.8",
+    "tsx": "^4.16.2",
+    "typescript": "^5.5.3"
+  }
+}

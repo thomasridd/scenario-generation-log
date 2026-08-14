@@ -1,0 +1,100 @@
+{% extends "layout.njk" %}
+
+{% from "govuk/components/pagination/macro.njk" import govukPagination %}
+{% from "moj/components/filter/macro.njk" import mojFilter %}
+
+{% set pageTitle = "Scenario log" %}
+
+{% set filterFieldsHtml %}
+  <div class="govuk-form-group">
+    <label class="govuk-label" for="env">Environment</label>
+    <select class="govuk-select" id="env" name="env">
+      <option value="">All environments</option>
+      {% for opt in envOptions %}
+        <option value="{{ opt }}" {% if filters.env == opt %}selected{% endif %}>{{ opt }}</option>
+      {% endfor %}
+    </select>
+  </div>
+
+  <div class="govuk-form-group">
+    <label class="govuk-label" for="epic">Epic</label>
+    <select class="govuk-select" id="epic" name="epic">
+      <option value="">All epics</option>
+      {% for opt in epicOptions %}
+        <option value="{{ opt }}" {% if filters.epic == opt %}selected{% endif %}>{{ opt }}</option>
+      {% endfor %}
+    </select>
+  </div>
+
+  <div class="govuk-form-group">
+    <label class="govuk-label" for="q">Search scenario or identifier</label>
+    <input class="govuk-input" id="q" name="q" type="text" value="{{ filters.q | default('') }}">
+  </div>
+{% endset %}
+
+{% block content %}
+  <h1 class="govuk-heading-l">Scenario log</h1>
+
+  <form method="get" action="/">
+    <input type="hidden" name="pageSize" value="{{ pageSize }}">
+
+    <div class="moj-filter-layout">
+      <div class="moj-filter-layout__filter">
+        {{ mojFilter({
+          heading: { text: "Filter" },
+          selectedFilters: {
+            heading: { text: "Selected filters" },
+            clearLink: { text: "Clear filters", href: clearFiltersHref },
+            categories: selectedFilterCategories
+          } if hasFilters else null,
+          optionsHtml: filterFieldsHtml
+        }) }}
+      </div>
+
+      <div class="moj-filter-layout__content">
+        <div class="moj-action-bar govuk-!-margin-bottom-4">
+          <div class="moj-action-bar__filter">
+            <p class="govuk-body">
+              Showing {{ scenarios.length }} of {{ total }} scenario{{ "s" if total != 1 }}
+            </p>
+          </div>
+        </div>
+
+        {% if scenarios.length %}
+          <table class="govuk-table">
+            <thead class="govuk-table__head">
+              <tr class="govuk-table__row">
+                <th scope="col" class="govuk-table__header">ID</th>
+                <th scope="col" class="govuk-table__header">Environment</th>
+                <th scope="col" class="govuk-table__header">Epic</th>
+                <th scope="col" class="govuk-table__header">Scenario</th>
+                <th scope="col" class="govuk-table__header">Identifier</th>
+              </tr>
+            </thead>
+            <tbody class="govuk-table__body">
+              {% for s in scenarios %}
+                <tr class="govuk-table__row">
+                  <td class="govuk-table__cell">
+                    <a class="govuk-link" href="/scenario/{{ s.id }}">{{ s.id }}</a>
+                  </td>
+                  <td class="govuk-table__cell">{{ s.env }}</td>
+                  <td class="govuk-table__cell">{{ s.epic }}</td>
+                  <td class="govuk-table__cell">
+                    <a class="govuk-link" href="/scenario/{{ s.id }}">{{ s.scenario }}</a>
+                  </td>
+                  <td class="govuk-table__cell">{{ s.identifier }}</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+
+          {% if pagination %}
+            {{ govukPagination(pagination) }}
+          {% endif %}
+        {% else %}
+          <p class="govuk-body">No scenarios found.</p>
+        {% endif %}
+      </div>
+    </div>
+  </form>
+{% endblock %}

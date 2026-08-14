@@ -1,0 +1,15 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: scenario_generation_log
+    ports:
+      - "5432:5432"
+    volumes:
+      - scenario_generation_log_data:/var/lib/postgresql/data
+
+volumes:
+  scenario_generation_log_data:

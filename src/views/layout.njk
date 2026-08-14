@@ -1,0 +1,40 @@
+{% extends "moj/template.njk" %}
+
+{% from "moj/components/header/macro.njk" import mojHeader %}
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+
+{% block pageTitle %}{{ pageTitle | default("Test Scenario Tracker") }}{% endblock %}
+
+{% block head %}
+  <link rel="stylesheet" href="/css/app.css">
+{% endblock %}
+
+{% block header %}
+  {{ mojHeader({
+    organisationLabel: {
+      text: "Test Scenario Tracker",
+      href: "/"
+    },
+    serviceLabel: {
+      text: "Scenario log",
+      href: "/"
+    }
+  }) }}
+{% endblock %}
+
+{% block beforeContent %}
+  {% block backLink %}{% endblock %}
+{% endblock %}
+
+{% block bodyEnd %}
+  <script type="module" src="/js/govuk-frontend.min.js"></script>
+  <script type="module">
+    import { initAll } from '/js/govuk-frontend.min.js'
+    initAll()
+  </script>
+  <script type="module" src="/js/moj-frontend.min.js"></script>
+  <script type="module">
+    import { initAll as mojInitAll } from '/js/moj-frontend.min.js'
+    mojInitAll()
+  </script>
+{% endblock %}

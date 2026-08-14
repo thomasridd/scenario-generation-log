@@ -1,0 +1,69 @@
+{% extends "layout.njk" %}
+
+{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+{% from "govuk/components/textarea/macro.njk" import govukTextarea %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+
+{% set pageTitle = scenario.scenario + " - Scenario log" %}
+
+{% block backLink %}
+  {{ govukBackLink({ text: "Back to scenario log", href: "/" }) }}
+{% endblock %}
+
+{% block content %}
+  {% set linkHtml %}{% if scenario.link %}<a class="govuk-link" href="{{ scenario.link }}">{{ scenario.link }}</a>{% endif %}{% endset %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <span class="govuk-caption-l">{{ scenario.epic }} - {{ scenario.env }}</span>
+      <h1 class="govuk-heading-l">{{ scenario.scenario }}</h1>
+
+      {{ govukSummaryList({
+        rows: [
+          { key: { text: "ID" }, value: { text: scenario.id } },
+          { key: { text: "Environment" }, value: { text: scenario.env } },
+          { key: { text: "Epic" }, value: { text: scenario.epic } },
+          { key: { text: "Scenario" }, value: { text: scenario.scenario } },
+          { key: { text: "Identifier" }, value: { text: scenario.identifier } },
+          { key: { text: "Link" }, value: { html: linkHtml } },
+          { key: { text: "Created" }, value: { text: createdFormatted } }
+        ]
+      }) }}
+
+      <h2 class="govuk-heading-m">Data</h2>
+      {% if data.length %}
+        <table class="govuk-table">
+          <thead class="govuk-table__head">
+            <tr class="govuk-table__row">
+              <th scope="col" class="govuk-table__header">Field</th>
+              <th scope="col" class="govuk-table__header">Value</th>
+            </tr>
+          </thead>
+          <tbody class="govuk-table__body">
+            {% for item in data %}
+              <tr class="govuk-table__row">
+                <td class="govuk-table__cell">{{ item.field }}</td>
+                <td class="govuk-table__cell">{{ item.value }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      {% else %}
+        <p class="govuk-body">No data recorded for this scenario.</p>
+      {% endif %}
+
+      <h2 class="govuk-heading-m">Note</h2>
+      <form method="post" action="/scenario/{{ scenario.id }}/note">
+        {{ govukTextarea({
+          id: "note",
+          name: "note",
+          label: { text: "Note", classes: "govuk-visually-hidden" },
+          value: scenario.note,
+          attributes: { maxlength: 5000 }
+        }) }}
+        {{ govukButton({ text: "Update note" }) }}
+      </form>
+    </div>
+  </div>
+{% endblock %}

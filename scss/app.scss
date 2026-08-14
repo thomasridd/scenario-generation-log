@@ -1,0 +1,5 @@
+// MoJ Frontend configures GOV.UK Frontend's settings (asset paths, fonts) via
+// `with (...)`, so it must be @used before GOV.UK Frontend's own index, which
+// then reuses that configuration to compile the full set of GOV.UK components.
+@use "@ministryofjustice/frontend/moj/all";
+@use "govuk-frontend/dist/govuk/index";
