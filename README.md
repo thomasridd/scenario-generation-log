@@ -98,6 +98,37 @@ npm start
 The app listens on `http://localhost:3000` by default (or whatever `PORT` is
 set to).
 
+## Deploying to Heroku
+
+The app is set up to deploy as-is:
+
+- `Procfile` runs migrations as a [release phase](https://devcenter.heroku.com/articles/release-phase)
+  step (`release: npm run migrate`) before each deploy takes effect, and runs
+  the server as the `web` process (`web: npm start`).
+- `app.json` declares a `heroku-postgresql` add-on, so `DATABASE_URL` is set
+  automatically — no manual config var needed for the database.
+- `package.json` has an `engines.node` pin and a `heroku-postbuild` script
+  (`npm run build`), so the buildpack compiles TypeScript and Sass during
+  the build step.
+- `src/pg-ssl.ts` enables SSL for the Postgres connection whenever
+  `NODE_ENV=production` (which Heroku sets by default), since Heroku
+  Postgres requires SSL.
+
+Deploy with the Heroku CLI:
+
+```bash
+heroku create
+heroku addons:create heroku-postgresql:essential-0
+git push heroku claude/test-scenario-tracker-ybeuii:main
+```
+
+(Substitute your current branch name if different, or push `main` if you've
+merged there.) `heroku addons:create` isn't needed if you provision Postgres
+another way (e.g. `heroku create` with `app.json` via the Heroku Button/Review
+Apps, which provisions it automatically from `app.json`).
+
+`PORT` is set automatically by Heroku; you don't need to configure it.
+
 ## API
 
 ### `POST /api/scenario`

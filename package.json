@@ -4,11 +4,15 @@
   "description": "Standalone service for logging and browsing test scenarios seeded by data-seeding scripts",
   "private": true,
   "main": "dist/index.js",
+  "engines": {
+    "node": "22.x"
+  },
   "scripts": {
     "predev": "npm run copy-assets && npm run build:css",
     "dev": "concurrently -k -n css,server -c cyan,green \"npm:build:css:watch\" \"tsx watch src/index.ts\"",
     "prebuild": "npm run copy-assets",
     "build": "npm run build:css && npm run build:ts",
+    "heroku-postbuild": "npm run build",
     "build:ts": "tsc",
     "copy-assets": "node scripts/copy-assets.js",
     "build:css": "sass --load-path=. --load-path=node_modules scss/app.scss:public/css/app.css --no-source-map --style=compressed",

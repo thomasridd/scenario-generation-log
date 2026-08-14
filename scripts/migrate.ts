@@ -4,6 +4,7 @@ import "dotenv/config";
 import fs from "fs";
 import path from "path";
 import { Pool } from "pg";
+import { pgSslConfig } from "../src/pg-ssl";
 
 async function main() {
   const databaseUrl = process.env.DATABASE_URL;
@@ -11,7 +12,7 @@ async function main() {
     throw new Error("DATABASE_URL is not set");
   }
 
-  const pool = new Pool({ connectionString: databaseUrl });
+  const pool = new Pool({ connectionString: databaseUrl, ssl: pgSslConfig });
   const client = await pool.connect();
 
   try {

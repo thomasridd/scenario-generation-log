@@ -1,0 +1,17 @@
+{
+  "name": "Test Scenario Tracker",
+  "description": "Logs and browses test scenarios seeded by data-seeding scripts",
+  "keywords": ["node", "express", "postgres"],
+  "buildpacks": [
+    { "url": "heroku/nodejs" }
+  ],
+  "addons": [
+    { "plan": "heroku-postgresql:essential-0" }
+  ],
+  "env": {
+    "NPM_CONFIG_PRODUCTION": {
+      "description": "Ensures devDependencies (TypeScript, sass) are installed so the build step can run",
+      "value": "false"
+    }
+  }
+}
