@@ -53,11 +53,10 @@
 
       <div class="moj-filter-layout__content">
         <div class="moj-action-bar govuk-!-margin-bottom-4">
-          <div class="moj-action-bar__filter">
-            <p class="govuk-body">
-              Showing {{ scenarios.length }} of {{ total }} scenario{{ "s" if total != 1 }}
-            </p>
-          </div>
+          <div class="moj-action-bar__filter"></div>
+          <p class="govuk-body">
+            Showing {{ scenarios.length }} of {{ total }} scenario{{ "s" if total != 1 }}
+          </p>
         </div>
 
         {% if scenarios.length %}

@@ -34,7 +34,12 @@
   </script>
   <script type="module" src="/js/moj-frontend.min.js"></script>
   <script type="module">
-    import { initAll as mojInitAll } from '/js/moj-frontend.min.js'
+    import { createAll } from '/js/govuk-frontend.min.js'
+    import { initAll as mojInitAll, FilterToggleButton } from '/js/moj-frontend.min.js'
     mojInitAll()
+    // FilterToggleButton is excluded from mojInitAll() and needs an explicit
+    // opt-in; a media query that never matches keeps the "Close" button
+    // present at every screen width, not just narrow ones.
+    createAll(FilterToggleButton, { bigModeMediaQuery: "(min-width: 999999px)" })
   </script>
 {% endblock %}
