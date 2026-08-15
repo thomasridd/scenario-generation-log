@@ -4,29 +4,31 @@
 {% from "moj/components/filter/macro.njk" import mojFilter %}
 
 {% set filterFieldsHtml %}
-  <div class="govuk-form-group">
-    <label class="govuk-label" for="env">Environment</label>
-    <select class="govuk-select" id="env" name="env">
-      <option value="">All environments</option>
-      {% for opt in envOptions %}
-        <option value="{{ opt }}" {% if filters.env == opt %}selected{% endif %}>{{ opt }}</option>
-      {% endfor %}
-    </select>
-  </div>
+  <div class="sl-filter-grid">
+    <div class="govuk-form-group">
+      <label class="govuk-label" for="env">Environment</label>
+      <select class="govuk-select" id="env" name="env">
+        <option value="">All environments</option>
+        {% for opt in envOptions %}
+          <option value="{{ opt }}" {% if filters.env == opt %}selected{% endif %}>{{ opt }}</option>
+        {% endfor %}
+      </select>
+    </div>
 
-  <div class="govuk-form-group">
-    <label class="govuk-label" for="epic">Epic</label>
-    <select class="govuk-select" id="epic" name="epic">
-      <option value="">All epics</option>
-      {% for opt in epicOptions %}
-        <option value="{{ opt }}" {% if filters.epic == opt %}selected{% endif %}>{{ opt }}</option>
-      {% endfor %}
-    </select>
-  </div>
+    <div class="govuk-form-group">
+      <label class="govuk-label" for="epic">Epic</label>
+      <select class="govuk-select" id="epic" name="epic">
+        <option value="">All epics</option>
+        {% for opt in epicOptions %}
+          <option value="{{ opt }}" {% if filters.epic == opt %}selected{% endif %}>{{ opt }}</option>
+        {% endfor %}
+      </select>
+    </div>
 
-  <div class="govuk-form-group">
-    <label class="govuk-label" for="q">Search scenario or identifier</label>
-    <input class="govuk-input" id="q" name="q" type="text" value="{{ filters.q | default('') }}">
+    <div class="govuk-form-group">
+      <label class="govuk-label" for="q">Search scenario or identifier</label>
+      <input class="govuk-input" id="q" name="q" type="text" value="{{ filters.q | default('') }}">
+    </div>
   </div>
 {% endset %}
 
@@ -79,7 +81,7 @@
                   <td class="govuk-table__cell">
                     <a class="govuk-link" href="/scenario/{{ s.id }}">{{ s.scenario }}</a>
                   </td>
-                  <td class="govuk-table__cell">{{ s.identifier }}</td>
+                  <td class="govuk-table__cell sl-mono">{{ s.identifier }}</td>
                 </tr>
               {% endfor %}
             </tbody>
