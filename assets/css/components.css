@@ -1,0 +1,215 @@
+/*
+ * Components. design-system/MIGRATION.md, phase 4.
+ *
+ * Loaded after theme.css. Retheme in the order the spec lists: buttons,
+ * tables, filter panel, summary list, form inputs - CSS only, markup
+ * unchanged except where a wrapper element is genuinely required for a
+ * layout the old markup has no hook for (the filter's 3-up field grid).
+ *
+ * Two of the spec's eight numbered components aren't in this app at all
+ * and are skipped rather than guessed at:
+ *   - Tags (.govuk-tag): no scenario in this app has a status field, so
+ *     no .govuk-tag markup exists anywhere to retheme. Open decision 4
+ *     (status vocabulary) is what would unblock this, and it's still
+ *     unresolved - flagging again here since this is the phase it would
+ *     have mattered for, but there's nothing to change without it.
+ *   - Notification banner (.govuk-notification-banner) and error summary
+ *     (.govuk-error-summary / error states): neither is rendered
+ *     anywhere - the note form has no client-side validation UI, and
+ *     /api/scenario returns a plain JSON 400, not a rendered error
+ *     summary (see the phase 0 inventory). Form INPUT error-state colour
+ *     is still covered below (§8) since --govuk-error-colour is a cheap,
+ *     harmless override even with nothing currently rendering it.
+ */
+
+/* 1. Buttons -------------------------------------------------------- */
+
+.govuk-button {
+  min-height: 44px;
+  padding: 13px 20px;
+  border-radius: var(--sl-radius);
+  background-color: var(--sl-purple);
+  box-shadow: none;
+  transition: background-color var(--sl-transition);
+}
+
+.govuk-button:hover {
+  background-color: var(--sl-purple-dark);
+}
+
+/* No 2px "press" travel on click. */
+.govuk-button:active {
+  top: 0;
+}
+
+/* The focus-not-active-not-hover state carries its own 2px box-shadow to
+   match the button's normal one - since that's gone, so is this. */
+.govuk-button:focus:not(:active):not(:hover) {
+  box-shadow: none;
+}
+
+.govuk-button--secondary,
+.govuk-button--secondary:link,
+.govuk-button--secondary:visited,
+.govuk-button--secondary:hover,
+.govuk-button--secondary:active {
+  color: var(--sl-purple-dark);
+}
+
+.govuk-button--secondary {
+  background-color: var(--sl-white);
+  box-shadow: inset 0 0 0 2px var(--sl-purple-dark);
+}
+
+.govuk-button--secondary:hover {
+  background-color: var(--sl-tint);
+}
+
+.govuk-button--warning {
+  background-color: var(--sl-red-text);
+}
+
+/* 3. Tables ----------------------------------------------------------
+   Row-rule and cell-border colour comes from the --govuk-border-colour
+   custom property override in §7/8 below, shared with the summary list. */
+
+.govuk-table {
+  font-variant-numeric: tabular-nums;
+}
+
+.govuk-table__head {
+  background-color: var(--sl-panel);
+}
+
+.govuk-table__header {
+  font-size: 15px;
+  text-transform: uppercase;
+}
+
+.govuk-table__head .govuk-table__header {
+  border-bottom: 2px solid var(--sl-ink);
+}
+
+.govuk-table__header,
+.govuk-table__cell {
+  padding: 14px 16px;
+}
+
+.govuk-table__header:first-child,
+.govuk-table__cell:first-child {
+  padding-left: 0;
+}
+
+.govuk-table__header:last-child,
+.govuk-table__cell:last-child {
+  padding-right: 0;
+}
+
+.govuk-table__body .govuk-table__row:nth-child(even) {
+  background-color: var(--sl-tint);
+}
+
+/* 4. Filter panel ------------------------------------------------------
+   MoJ Frontend's actual borders here are grey (#cecece / #f3f3f3), not
+   blue, and the filter tag's border is black (#0b0c0c) rather than blue
+   too - this version of the package doesn't match the spec's "blue"
+   description, but the intent (flatten the borders, drop the tag's own
+   colour scheme) applies just the same. */
+
+.moj-filter {
+  background-color: var(--sl-panel);
+  box-shadow: none;
+}
+
+.moj-filter__header,
+.moj-filter__options,
+.moj-filter__selected {
+  background-color: transparent;
+  box-shadow: none;
+  padding: var(--sl-5);
+}
+
+.moj-filter-layout__filter {
+  box-shadow: none;
+}
+
+/* The filter's own headings ("Filter", "Selected filters") render as
+   govuk-heading-m, which phase 3 sized to 32px for page-level h2s - too
+   large for a panel heading. Sized to match the type scale's h3 row
+   (21px/700), the closest match to the spec's "21px/700 heading" for
+   this component. */
+.moj-filter .govuk-heading-m {
+  font-size: 21px;
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+}
+
+.moj-filter__tag {
+  border-color: var(--sl-ink);
+  color: var(--sl-ink);
+  background-color: var(--sl-white);
+}
+
+.moj-filter__tag:hover {
+  background-color: var(--sl-ink);
+}
+
+/* 3-up grid of filter fields at >=768px, single column below. Wraps the
+   env/epic/search fields (index.njk) - the only markup addition in this
+   phase, since there's no existing hook to grid just the fields without
+   also grid-placing the "Apply filters" button above them. */
+.sl-filter-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--sl-4);
+}
+
+@media (min-width: 768px) {
+  .sl-filter-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* GOV.UK's select has a min-width of 11.5em (~184px) - three of those
+   can't fit in the filter panel's own ~385px max-width (moj-filter-layout
+   keeps the panel a narrow column/overlay even in its "open" state), so
+   without this the grid blows out past its container. min-width: 0
+   overrides the browser's default "don't shrink grid items below their
+   content's intrinsic size" behaviour. */
+.sl-filter-grid > .govuk-form-group {
+  min-width: 0;
+}
+
+.sl-filter-grid .govuk-select {
+  min-width: 0;
+  width: 100%;
+}
+
+/* 7. Summary list ----------------------------------------------------- */
+
+.govuk-summary-list__key {
+  width: 240px;
+}
+
+/* 8. Form inputs --------------------------------------------------------
+   Hint text (15px, --sl-ink-muted) is already correct as of phase 3 -
+   .govuk-hint's font-size and its --govuk-secondary-text-colour-based
+   colour were both set there. Nothing new needed for it here. */
+
+:root {
+  --govuk-input-border-colour: var(--sl-ink);
+  --govuk-error-colour: var(--sl-red-text);
+  /* Shared row/cell border colour - used by the table (§3) and summary
+     list (§7) above, and incidentally by pagination's block-mode divider,
+     which isn't itself a named component in this phase. */
+  --govuk-border-colour: var(--sl-border);
+}
+
+.govuk-input,
+.govuk-select {
+  height: 44px;
+}
+
+.govuk-textarea {
+  min-height: 44px;
+}

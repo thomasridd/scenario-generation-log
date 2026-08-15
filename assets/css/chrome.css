@@ -1,0 +1,153 @@
+/*
+ * Page chrome: our own header and footer (partials/_header.njk,
+ * partials/_footer.njk), plus a recolour of the inherited GOV.UK skip
+ * link's focus state. design-system/MIGRATION.md, phase 2.
+ *
+ * Loaded after tokens.css. Component-level GOV.UK class overrides (links,
+ * tables, buttons, etc.) are Phase 3/4's theme.css, not this file - this
+ * one only styles chrome we introduced ourselves.
+ */
+
+/* GOV.UK Frontend only sets font-family on elements carrying its own
+   typography classes (headings, .govuk-body, etc.) - .govuk-template /
+   .govuk-template__body apply no page-wide font reset. Our own markup
+   below carries no GOV.UK classes, so it needs its own font-family or it
+   falls back to the browser default serif. */
+.sl-header,
+.sl-footer {
+  font-family: var(--sl-font);
+}
+
+.sl-header {
+  background: var(--sl-white);
+  border-bottom: 4px solid var(--sl-purple);
+}
+
+.sl-header__container {
+  max-width: var(--sl-max-width);
+  margin: 0 auto;
+  padding: var(--sl-4) var(--sl-6);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sl-4);
+}
+
+@media (max-width: 640px) {
+  .sl-header__container {
+    padding: var(--sl-4) var(--sl-5);
+  }
+}
+
+.sl-header__wordmark {
+  display: flex;
+  align-items: center;
+  gap: var(--sl-3);
+  min-height: 44px;
+  color: var(--sl-ink);
+  text-decoration: none;
+}
+
+.sl-header__wordmark:focus {
+  outline: 3px solid var(--sl-yellow);
+  outline-offset: 0;
+  box-shadow: 0 3px 0 0 var(--sl-ink);
+}
+
+.sl-header__service-name {
+  font-size: 19px;
+  font-weight: 700;
+}
+
+.sl-header__bars {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.sl-header__bar {
+  width: 4px;
+  height: 18px;
+}
+
+.sl-header__bar--red {
+  background: var(--sl-red);
+}
+
+.sl-header__bar--yellow {
+  background: var(--sl-yellow);
+}
+
+.sl-header__bar--teal {
+  background: var(--sl-teal);
+}
+
+.sl-header__nav-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sl-5);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.sl-header__nav-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-size: 17px;
+  color: var(--sl-ink);
+  text-decoration: none;
+  padding-bottom: var(--sl-1);
+}
+
+.sl-header__nav-link:hover {
+  text-decoration: underline;
+}
+
+.sl-header__nav-link:focus {
+  outline: 3px solid var(--sl-yellow);
+  outline-offset: 0;
+  box-shadow: 0 3px 0 0 var(--sl-ink);
+}
+
+.sl-header__nav-link[aria-current="page"] {
+  font-weight: 600;
+  box-shadow: inset 0 -3px 0 0 var(--sl-purple);
+}
+
+.sl-footer {
+  background: var(--sl-ink);
+  color: var(--sl-white);
+}
+
+.sl-footer__container {
+  max-width: var(--sl-max-width);
+  margin: 0 auto;
+  padding: var(--sl-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sl-2);
+}
+
+.sl-footer__eyebrow {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+}
+
+.sl-footer__note {
+  margin: 0;
+  font-size: 15px;
+}
+
+/* Recolour the inherited GOV.UK skip link's focus state to our tokens -
+   the mechanics (outline, on-load focus behaviour) are untouched. */
+.govuk-skip-link:focus {
+  color: var(--sl-ink);
+  outline-color: var(--sl-yellow);
+  background-color: var(--sl-yellow);
+}

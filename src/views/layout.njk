@@ -1,30 +1,37 @@
 {% extends "moj/template.njk" %}
 
-{% from "moj/components/header/macro.njk" import mojHeader %}
 {% from "govuk/components/back-link/macro.njk" import govukBackLink %}
 
-{% block pageTitle %}{{ pageTitle | default("Test Scenario Tracker") }}{% endblock %}
+{% set themeColor = "#6F58B9" %}
+
+{% block pageTitle %}{{ pageTitle | default("Scenario generator log") }}{% endblock %}
 
 {% block head %}
   <link rel="stylesheet" href="/css/app.css">
   <link rel="stylesheet" href="/css/tokens.css">
+  <link rel="stylesheet" href="/css/chrome.css">
+  <link rel="stylesheet" href="/css/theme.css">
+  <link rel="stylesheet" href="/css/components.css">
+{% endblock %}
+
+{% block headIcons %}
+  <link rel="icon" sizes="48x48" href="/images/favicon.ico">
+  <link rel="icon" sizes="any" href="/images/favicon.svg" type="image/svg+xml">
+  <link rel="mask-icon" href="/images/mask-icon.svg" color="{{ themeColor }}">
+  <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+  <link rel="manifest" href="/manifest.json">
 {% endblock %}
 
 {% block header %}
-  {{ mojHeader({
-    organisationLabel: {
-      text: "Test Scenario Tracker",
-      href: "/"
-    },
-    serviceLabel: {
-      text: "Scenario log",
-      href: "/"
-    }
-  }) }}
+  {% include "partials/_header.njk" %}
 {% endblock %}
 
 {% block beforeContent %}
   {% block backLink %}{% endblock %}
+{% endblock %}
+
+{% block footer %}
+  {% include "partials/_footer.njk" %}
 {% endblock %}
 
 {% block bodyEnd %}
