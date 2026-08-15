@@ -1,0 +1,38 @@
+{#
+  Our own header, replacing the govuk-header/moj-header markup entirely
+  (design-system/MIGRATION.md, phase 2).
+
+  navItems is optional: a list of { text, href, current }. The app doesn't
+  have any secondary navigation destinations yet (just the scenario log and
+  its detail pages, reached from the table rather than a nav bar), so this
+  renders nothing extra today - the markup and styling are ready for when
+  one exists.
+#}
+<header class="sl-header">
+  <div class="sl-header__container">
+    <a class="sl-header__wordmark" href="/">
+      <span class="sl-header__service-name">Scenario generator log</span>
+      <span class="sl-header__bars" aria-hidden="true">
+        <span class="sl-header__bar sl-header__bar--red"></span>
+        <span class="sl-header__bar sl-header__bar--yellow"></span>
+        <span class="sl-header__bar sl-header__bar--teal"></span>
+      </span>
+    </a>
+
+    {% if navItems and navItems.length %}
+      <nav class="sl-header__nav" aria-label="Primary">
+        <ul class="sl-header__nav-list">
+          {% for item in navItems %}
+            <li class="sl-header__nav-item">
+              <a
+                class="sl-header__nav-link"
+                href="{{ item.href }}"
+                {%- if item.current %} aria-current="page"{% endif %}
+              >{{ item.text }}</a>
+            </li>
+          {% endfor %}
+        </ul>
+      </nav>
+    {% endif %}
+  </div>
+</header>
