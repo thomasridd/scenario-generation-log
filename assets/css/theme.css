@@ -54,6 +54,19 @@
   }
 }
 
+/* Beyond max-width + 2*gutter, a fixed gutter margin leaves the container
+   flush against the left edge with all the slack on the right - unlike
+   the header/footer, which centre via `margin: 0 auto` on their own
+   max-width containers (chrome.css). Switching to auto margins once the
+   viewport is wide enough to fit max-width plus both gutters centres the
+   main content the same way. */
+@media (min-width: 1212px) {
+  .govuk-width-container {
+    margin-right: auto;
+    margin-left: auto;
+  }
+}
+
 /* Type scale (§3). Sizes only - GOV.UK's own font-weight/margin rules are
    left as-is except where the scale explicitly changes them. */
 
