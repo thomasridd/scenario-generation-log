@@ -132,7 +132,6 @@ webRouter.get("/", async (req, res, next) => {
         : null;
 
     res.render("index.njk", {
-      pageTitle: "Scenario log",
       scenarios: rows,
       total,
       totalPages,
@@ -175,7 +174,7 @@ webRouter.get("/scenario/:id", async (req, res, next) => {
     }
 
     res.render("scenario.njk", {
-      pageTitle: `${scenario.scenario} - Scenario log`,
+      pageTitle: `${scenario.scenario} - Scenario generator log`,
       scenario,
       data,
       createdFormatted: formatTimestamp(scenario.created_timestamp),
