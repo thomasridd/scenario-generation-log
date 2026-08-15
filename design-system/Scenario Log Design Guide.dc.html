@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,400;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; background: #f8f8f8; -webkit-font-smoothing: antialiased; }
+  a { color: #4a2e8f; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 2px; }
+  a:hover { color: #262626; text-decoration-thickness: 3px; }
+  *:focus-visible { outline: 3px solid #ffd026; outline-offset: 0; box-shadow: 0 3px 0 0 #262626; }
+</style>
+</helmet>
+
+<div style="font-family: 'Public Sans', Helvetica, Arial, sans-serif; color: #262626; display: flex; flex-direction: column; gap: 0; width: 1280px; background: #ffffff;">
+
+  <div style="background: #ffffff; padding: 40px 56px 28px; border-bottom: 4px solid #6f58b9; display: flex; flex-direction: column; gap: 16px;">
+    <div style="display: flex; align-items: baseline; gap: 12px;">
+      <span style="font-size: 15px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #262626;">Scenario Log</span>
+      <span style="display: flex; gap: 3px; align-self: center;"><span style="width: 4px; height: 15px; background: #e52a3b;"></span><span style="width: 4px; height: 15px; background: #ffd026;"></span><span style="width: 4px; height: 15px; background: #339fa7;"></span></span>
+      <span style="font-size: 15px; color: #5c5c5c;">Design &amp; migration guide — v1</span>
+    </div>
+    <h1 style="margin: 0; font-size: 56px; line-height: 1.05; font-weight: 700; letter-spacing: -0.02em; max-width: 22ch; text-wrap: pretty;">Off GOV.UK, onto our own look and feel</h1>
+    <p style="margin: 0; font-size: 21px; line-height: 1.5; max-width: 66ch; color: #262626; text-wrap: pretty;">Scenario Log was prototyped on GOV.UK Frontend with the MoJ pattern library. That gave us accessibility and clarity for free — and a visual identity that isn't ours, plus a Crown-branded footer on an internal tool. This guide keeps the discipline and replaces the identity. Palette and layout ideas are drawn from methods.co.uk: white canvas, purple blocks, grey panels.</p>
+    <div style="display: flex; gap: 12px; padding-top: 8px;">
+      <a href="#tokens" style="background: #6f58b9; color: #ffffff; text-decoration: none; font-size: 17px; font-weight: 600; padding: 12px 20px;">Design tokens</a>
+      <a href="#components" style="background: #ffffff; color: #4a2e8f; text-decoration: none; font-size: 17px; font-weight: 600; padding: 12px 20px; box-shadow: inset 0 0 0 2px #4a2e8f;">Components</a>
+      <a href="#migration" style="background: #ffffff; color: #4a2e8f; text-decoration: none; font-size: 17px; font-weight: 600; padding: 12px 20px; box-shadow: inset 0 0 0 2px #4a2e8f;">Migration plan</a>
+    </div>
+  </div>
+
+  <div style="padding: 48px 56px; display: flex; flex-direction: column; gap: 20px;">
+    <h2 style="margin: 0; font-size: 15px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #5c5c5c;">Principles</h2>
+    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px;">
+      <div style="background: #eeeeee; padding: 24px; display: flex; flex-direction: column; gap: 8px;">
+        <span style="font-size: 32px; font-weight: 700; color: #6f58b9;">01</span>
+        <h3 style="margin: 0; font-size: 19px; font-weight: 700;">Keep the rigour</h3>
+        <p style="margin: 0; font-size: 16px; line-height: 1.5; color: #262626;">One column of content, generous type, visible focus, real HTML semantics, error summaries at the top. Nothing here relaxes WCAG 2.2 AA.</p>
+      </div>
+      <div style="background: #eeeeee; padding: 24px; display: flex; flex-direction: column; gap: 8px;">
+        <span style="font-size: 32px; font-weight: 700; color: #6f58b9;">02</span>
+        <h3 style="margin: 0; font-size: 19px; font-weight: 700;">Drop the crown</h3>
+        <p style="margin: 0; font-size: 16px; line-height: 1.5; color: #262626;">No black GOV.UK masthead, no Crown copyright, no OGL licence, no GDS Transport, no <span style="font-family: 'IBM Plex Mono', monospace; font-size: 14px;">#1d70b8</span> blue. Using them off gov.uk is misleading and, for the font, not licensed.</p>
+      </div>
+      <div style="background: #eeeeee; padding: 24px; display: flex; flex-direction: column; gap: 8px;">
+        <span style="font-size: 32px; font-weight: 700; color: #6f58b9;">03</span>
+        <h3 style="margin: 0; font-size: 19px; font-weight: 700;">Purple carries the brand</h3>
+        <p style="margin: 0; font-size: 16px; line-height: 1.5; color: #262626;">One brand colour doing structural work — header rule, primary action, headings on blocks. Grey does the panels. White does everything else.</p>
+      </div>
+      <div style="background: #eeeeee; padding: 24px; display: flex; flex-direction: column; gap: 8px;">
+        <span style="font-size: 32px; font-weight: 700; color: #6f58b9;">04</span>
+        <h3 style="margin: 0; font-size: 19px; font-weight: 700;">It's a tool, not a service</h3>
+        <p style="margin: 0; font-size: 16px; line-height: 1.5; color: #262626;">Scenario Log is dense, repeat-visit, internal. Tables get tabular figures and monospace identifiers; filters stay put; density is allowed to rise.</p>
+      </div>
+    </div>
+  </div>
+
+  <div id="tokens" style="padding: 8px 56px 48px; display: flex; flex-direction: column; gap: 24px;">
+    <div style="display: flex; flex-direction: column; gap: 8px;">
+      <h2 style="margin: 0; font-size: 15px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #5c5c5c;">Colour</h2>
+      <p style="margin: 0; font-size: 17px; line-height: 1.5; max-width: 70ch; color: #262626;">Sampled from methods.co.uk. Contrast ratios are against the stated background — every combination shown passes WCAG AA for its use.</p>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px;">
+      <div style="display: flex; flex-direction: column;">
+        <div style="background: #6f58b9; height: 116px; display: flex; align-items: flex-end; padding: 12px;"><span style="color: #ffffff; font-size: 15px; font-weight: 600;">White text 5.5:1</span></div>
+        <div style="background: #f8f8f8; padding: 12px; display: flex; flex-direction: column; gap: 2px;"><span style="font-size: 16px; font-weight: 700;">Purple</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 14px;">#6F58B9</span><span style="font-size: 14px; color: #5c5c5c;">Primary action, header rule, brand blocks</span></div>
+      </div>
+      <div style="display: flex; flex-direction: column;">
+        <div style="background: #4a2e8f; height: 116px; display: flex; align-items: flex-end; padding: 12px;"><span style="color: #ffffff; font-size: 15px; font-weight: 600;">White text 9.4:1</span></div>
+        <div style="background: #f8f8f8; padding: 12px; display: flex; flex-direction: column; gap: 2px;"><span style="font-size: 16px; font-weight: 700;">Purple dark</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 14px;">#4A2E8F</span><span style="font-size: 14px; color: #5c5c5c;">Links, hover, deep bands</span></div>
+      </div>
+      <div style="display: flex; flex-direction: column;">
+        <div style="background: #262626; height: 116px; display: flex; align-items: flex-end; padding: 12px;"><span style="color: #ffffff; font-size: 15px; font-weight: 600;">White text 14.9:1</span></div>
+        <div style="background: #f8f8f8; padding: 12px; display: flex; flex-direction: column; gap: 2px;"><span style="font-size: 16px; font-weight: 700;">Ink</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 14px;">#262626</span><span style="font-size: 14px; color: #5c5c5c;">All body text, wordmark, dark bands</span></div>
+      </div>
+      <div style="display: flex; flex-direction: column;">
+        <div style="background: #5c5c5c; height: 116px; display: flex; align-items: flex-end; padding: 12px;"><span style="color: #ffffff; font-size: 15px; font-weight: 600;">White text 6.4:1</span></div>
+        <div style="background: #f8f8f8; padding: 12px; display: flex; flex-direction: column; gap: 2px;"><span style="font-size: 16px; font-weight: 700;">Ink muted</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 14px;">#5C5C5C</span><span style="font-size: 14px; color: #5c5c5c;">Hints, captions, secondary labels</span></div>
+      </div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px;">
+      <div style="display: flex; flex-direction: column;">
+        <div style="background: #eeeeee; height: 96px; display: flex; align-items: flex-end; padding: 12px;"><span style="color: #262626; font-size: 15px; font-weight: 600;">Ink 12.4:1</span></div>
+        <div style="background: #f8f8f8; padding: 12px; display: flex; flex-direction: column; gap: 2px;"><span style="font-size: 16px; font-weight: 700;">Panel grey</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 14px;">#EEEEEE</span><span style="font-size: 14px; color: #5c5c5c;">Filter panels, stat strips, table head</span></div>
+      </div>
+      <div style="display: flex; flex-direction: column;">
+        <div style="background: #f8f8f8; height: 96px; display: flex; align-items: flex-end; padding: 12px; box-shadow: inset 0 0 0 1px #d8d8d8;"><span style="color: #262626; font-size: 15px; font-weight: 600;">Ink 13.6:1</span></div>
+        <div style="background: #f8f8f8; padding: 12px; display: flex; flex-direction: column; gap: 2px;"><span style="font-size: 16px; font-weight: 700;">Canvas tint</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 14px;">#F8F8F8</span><span style="font-size: 14px; color: #5c5c5c;">Zebra rows, page tint</span></div>
+      </div>
+      <div style="display: flex; flex-direction: column;">
+        <div style="background: #ffffff; height: 96px; display: flex; align-items: flex-end; padding: 12px; box-shadow: inset 0 0 0 1px #d8d8d8;"><span style="color: #262626; font-size: 15px; font-weight: 600;">The default canvas</span></div>
+        <div style="background: #f8f8f8; padding: 12px; display: flex; flex-direction: column; gap: 2px;"><span style="font-size: 16px; font-weight: 700;">White</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 14px;">#FFFFFF</span><span style="font-size: 14px; color: #5c5c5c;">Page, cards, table body</span></div>
+      </div>
+      <div style="display: flex; flex-direction: column;">
+        <div style="background: #d8d8d8; height: 96px; display: flex; align-items: flex-end; padding: 12px;"><span style="color: #262626; font-size: 15px; font-weight: 600;">Borders only</span></div>
+        <div style="background: #f8f8f8; padding: 12px; display: flex; flex-direction: column; gap: 2px;"><span style="font-size: 16px; font-weight: 700;">Border</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 14px;">#D8D8D8</span><span style="font-size: 14px; color: #5c5c5c;">Rules, input borders (2px)</span></div>
+      </div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 12px;">
+      <h3 style="margin: 0; font-size: 19px; font-weight: 700;">Status accents — from the logo bars, never used as backgrounds for text</h3>
+      <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px;">
+        <div style="background: #ffffff; box-shadow: inset 0 0 0 1px #d8d8d8; padding: 16px; display: flex; align-items: center; gap: 12px;">
+          <span style="width: 8px; height: 44px; background: #e52a3b; flex: none;"></span>
+          <span style="display: flex; flex-direction: column; gap: 2px;"><span style="font-size: 16px; font-weight: 700;">Red — failed / blocked</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 14px;">#E52A3B</span><span style="font-size: 14px; color: #5c5c5c;">Text tint <span style="font-family: 'IBM Plex Mono', monospace;">#B3111F</span> (5.9:1)</span></span>
+        </div>
+        <div style="background: #ffffff; box-shadow: inset 0 0 0 1px #d8d8d8; padding: 16px; display: flex; align-items: center; gap: 12px;">
+          <span style="width: 8px; height: 44px; background: #ffd026; flex: none;"></span>
+          <span style="display: flex; flex-direction: column; gap: 2px;"><span style="font-size: 16px; font-weight: 700;">Yellow — focus, in progress</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 14px;">#FFD026</span><span style="font-size: 14px; color: #5c5c5c;">Focus ring + <span style="font-family: 'IBM Plex Mono', monospace;">#262626</span> underline</span></span>
+        </div>
+        <div style="background: #ffffff; box-shadow: inset 0 0 0 1px #d8d8d8; padding: 16px; display: flex; align-items: center; gap: 12px;">
+          <span style="width: 8px; height: 44px; background: #339fa7; flex: none;"></span>
+          <span style="display: flex; flex-direction: column; gap: 2px;"><span style="font-size: 16px; font-weight: 700;">Teal — passed / done</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 14px;">#339FA7</span><span style="font-size: 14px; color: #5c5c5c;">Text tint <span style="font-family: 'IBM Plex Mono', monospace;">#1F6E74</span> (4.9:1)</span></span>
+        </div>
+        <div style="background: #ffffff; box-shadow: inset 0 0 0 1px #d8d8d8; padding: 16px; display: flex; align-items: center; gap: 12px;">
+          <span style="width: 8px; height: 44px; background: #3f78c7; flex: none;"></span>
+          <span style="display: flex; flex-direction: column; gap: 2px;"><span style="font-size: 16px; font-weight: 700;">Blue — informational only</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 14px;">#3F78C7</span><span style="font-size: 14px; color: #5c5c5c;">Never for links — purple owns links</span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="padding: 8px 56px 48px; display: flex; flex-direction: column; gap: 24px;">
+    <div style="display: flex; flex-direction: column; gap: 8px;">
+      <h2 style="margin: 0; font-size: 15px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #5c5c5c;">Type</h2>
+      <p style="margin: 0; font-size: 17px; line-height: 1.5; max-width: 70ch;">GDS Transport must go. <strong>Public Sans</strong> replaces it — open licence, designed for dense public-sector interfaces, close enough in temperament that nothing breaks, different enough that nobody mistakes this for GOV.UK. <strong>IBM Plex Mono</strong> carries identifiers, IDs and timestamps so they can be scanned and compared.</p>
+    </div>
+    <div style="display: grid; grid-template-columns: 1fr 320px; gap: 2px; align-items: stretch;">
+      <div style="background: #ffffff; box-shadow: inset 0 0 0 1px #d8d8d8; padding: 32px; display: flex; flex-direction: column; gap: 20px;">
+        <div style="display: flex; align-items: baseline; gap: 20px;"><span style="font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: #5c5c5c; width: 130px; flex: none;">48/1.1 700</span><span style="font-size: 48px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.1;">Scenario log</span></div>
+        <div style="display: flex; align-items: baseline; gap: 20px;"><span style="font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: #5c5c5c; width: 130px; flex: none;">32/1.2 700</span><span style="font-size: 32px; font-weight: 700; letter-spacing: -0.01em;">Case with community order</span></div>
+        <div style="display: flex; align-items: baseline; gap: 20px;"><span style="font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: #5c5c5c; width: 130px; flex: none;">21/1.4 700</span><span style="font-size: 21px; font-weight: 700;">Filter scenarios</span></div>
+        <div style="display: flex; align-items: baseline; gap: 20px;"><span style="font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: #5c5c5c; width: 130px; flex: none;">19/1.55 400</span><span style="font-size: 19px; line-height: 1.55; max-width: 40ch;">Body copy. 19px is the floor for prose, same as GOV.UK — density comes from layout, not from shrinking text.</span></div>
+        <div style="display: flex; align-items: baseline; gap: 20px;"><span style="font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: #5c5c5c; width: 130px; flex: none;">17/1.4 400</span><span style="font-size: 17px;">Table cells, form labels, buttons</span></div>
+        <div style="display: flex; align-items: baseline; gap: 20px;"><span style="font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: #5c5c5c; width: 130px; flex: none;">15/1.4 400</span><span style="font-size: 15px; color: #5c5c5c;">Hints and captions — never below 15px</span></div>
+        <div style="display: flex; align-items: baseline; gap: 20px;"><span style="font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: #5c5c5c; width: 130px; flex: none;">Mono 16/1.4</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 16px;">RQ120948196</span></div>
+      </div>
+      <div style="background: #eeeeee; padding: 32px; display: flex; flex-direction: column; gap: 12px;">
+        <h3 style="margin: 0; font-size: 19px; font-weight: 700;">Rules</h3>
+        <ul style="margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 8px; font-size: 16px; line-height: 1.5;">
+          <li>Headings 700, tight tracking. No 300 weights anywhere.</li>
+          <li>Numbers in tables: <span style="font-family: 'IBM Plex Mono', monospace; font-size: 14px;">font-variant-numeric: tabular-nums</span>.</li>
+          <li>Measure caps at 70ch for prose.</li>
+          <li>Sentence case for headings and buttons. No title case.</li>
+          <li>Section eyebrows are 15px, 700, uppercase, 0.14em tracked — the one uppercase device.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div style="padding: 8px 56px 48px; display: flex; flex-direction: column; gap: 24px;">
+    <div style="display: flex; flex-direction: column; gap: 8px;">
+      <h2 style="margin: 0; font-size: 15px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #5c5c5c;">Space, shape, motion</h2>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px;">
+      <div style="background: #ffffff; box-shadow: inset 0 0 0 1px #d8d8d8; padding: 24px; display: flex; flex-direction: column; gap: 12px;">
+        <h3 style="margin: 0; font-size: 19px; font-weight: 700;">4px scale</h3>
+        <div style="display: flex; align-items: flex-end; gap: 6px;">
+          <span style="width: 4px; height: 4px; background: #6f58b9;"></span><span style="width: 8px; height: 8px; background: #6f58b9;"></span><span style="width: 12px; height: 12px; background: #6f58b9;"></span><span style="width: 16px; height: 16px; background: #6f58b9;"></span><span style="width: 24px; height: 24px; background: #6f58b9;"></span><span style="width: 32px; height: 32px; background: #6f58b9;"></span><span style="width: 48px; height: 48px; background: #6f58b9;"></span><span style="width: 64px; height: 64px; background: #6f58b9;"></span>
+        </div>
+        <p style="margin: 0; font-size: 16px; line-height: 1.5; color: #262626;">4 · 8 · 12 · 16 · 24 · 32 · 48 · 64. Page gutter 32px mobile, 56px desktop. Max content width 1100px — wider than GOV.UK's 960px because tables need it.</p>
+      </div>
+      <div style="background: #ffffff; box-shadow: inset 0 0 0 1px #d8d8d8; padding: 24px; display: flex; flex-direction: column; gap: 12px;">
+        <h3 style="margin: 0; font-size: 19px; font-weight: 700;">Square corners, flat surfaces</h3>
+        <div style="display: flex; gap: 8px; align-items: center;">
+          <span style="width: 56px; height: 40px; background: #6f58b9;"></span>
+          <span style="width: 56px; height: 40px; background: #ffffff; box-shadow: inset 0 0 0 2px #262626;"></span>
+          <span style="width: 56px; height: 40px; background: #eeeeee;"></span>
+        </div>
+        <p style="margin: 0; font-size: 16px; line-height: 1.5;">Radius 0 everywhere. No drop shadows, no gradients, no cards floating on tinted backgrounds. Separation comes from 2px rules, 2px gaps and grey fills — the block language from the Methods site.</p>
+      </div>
+      <div style="background: #ffffff; box-shadow: inset 0 0 0 1px #d8d8d8; padding: 24px; display: flex; flex-direction: column; gap: 12px;">
+        <h3 style="margin: 0; font-size: 19px; font-weight: 700;">Motion</h3>
+        <p style="margin: 0; font-size: 16px; line-height: 1.5;">120ms colour and border transitions on interactive elements. Nothing moves position, nothing fades in on load, everything respects <span style="font-family: 'IBM Plex Mono', monospace; font-size: 14px;">prefers-reduced-motion</span>. Focus is instant — never animated.</p>
+      </div>
+    </div>
+  </div>
+
+  <div id="components" style="padding: 8px 56px 48px; display: flex; flex-direction: column; gap: 28px;">
+    <div style="display: flex; flex-direction: column; gap: 8px;">
+      <h2 style="margin: 0; font-size: 15px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #5c5c5c;">Components — live, and what they replace</h2>
+      <p style="margin: 0; font-size: 17px; line-height: 1.5; max-width: 70ch;">Every one of these keeps the GOV.UK component's markup and behaviour. Only the paint changes, except where noted.</p>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 12px;">
+      <h3 style="margin: 0; font-size: 21px; font-weight: 700;">Header and footer</h3>
+      <div style="background: #f8f8f8; padding: 24px; display: flex; flex-direction: column; gap: 2px;">
+        <div style="background: #ffffff; border-bottom: 4px solid #6f58b9; padding: 20px 24px; display: flex; align-items: center; justify-content: space-between;">
+          <span style="display: flex; align-items: center; gap: 12px;">
+            <span style="font-size: 19px; font-weight: 700; letter-spacing: -0.01em;">Test Scenario Tracker</span>
+            <span style="display: flex; gap: 3px;"><span style="width: 4px; height: 18px; background: #e52a3b;"></span><span style="width: 4px; height: 18px; background: #ffd026;"></span><span style="width: 4px; height: 18px; background: #339fa7;"></span></span>
+          </span>
+          <span style="display: flex; gap: 24px; font-size: 17px;">
+            <a href="#components" style="color: #262626; text-decoration: none; box-shadow: inset 0 -3px 0 0 #6f58b9; padding-bottom: 2px; font-weight: 600;">Scenario log</a>
+            <a href="#components" style="color: #262626; text-decoration: none;">Environments</a>
+            <a href="#components" style="color: #262626; text-decoration: none;">Epics</a>
+          </span>
+        </div>
+        <div style="background: #262626; color: #ffffff; padding: 24px; display: flex; justify-content: space-between; align-items: flex-end; gap: 24px;">
+          <span style="display: flex; flex-direction: column; gap: 8px;">
+            <span style="font-size: 15px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;">Scenario Log</span>
+            <span style="font-size: 15px; color: #d8d8d8;">Internal tool. Data is test data — no real case information.</span>
+          </span>
+          <span style="display: flex; gap: 20px; font-size: 15px;">
+            <a href="#components" style="color: #ffffff;">Accessibility</a>
+            <a href="#components" style="color: #ffffff;">Support</a>
+            <a href="#components" style="color: #ffffff;">Release notes</a>
+          </span>
+        </div>
+      </div>
+      <p style="margin: 0; font-size: 16px; line-height: 1.5; max-width: 80ch; color: #5c5c5c;">Replaces <span style="font-family: 'IBM Plex Mono', monospace; font-size: 14px;">govuk-header</span> (black bar, crown, blue underline) and <span style="font-family: 'IBM Plex Mono', monospace; font-size: 14px;">govuk-footer</span> (OGL licence, Crown copyright). Both those blocks are removed outright, not restyled.</p>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 12px;">
+      <h3 style="margin: 0; font-size: 21px; font-weight: 700;">Buttons</h3>
+      <div style="background: #f8f8f8; padding: 24px; display: flex; gap: 16px; align-items: center; flex-wrap: wrap;">
+        <button type="button" style="font-family: inherit; font-size: 17px; font-weight: 600; color: #ffffff; background: #6f58b9; border: 0; padding: 13px 20px; min-height: 44px; cursor: pointer; transition: background 120ms;" style-hover="background: #4a2e8f;">Apply filters</button>
+        <button type="button" style="font-family: inherit; font-size: 17px; font-weight: 600; color: #4a2e8f; background: #ffffff; border: 0; box-shadow: inset 0 0 0 2px #4a2e8f; padding: 13px 20px; min-height: 44px; cursor: pointer; transition: box-shadow 120ms, color 120ms;" style-hover="color: #262626; box-shadow: inset 0 0 0 2px #262626;">Clear filters</button>
+        <button type="button" style="font-family: inherit; font-size: 17px; font-weight: 600; color: #ffffff; background: #b3111f; border: 0; padding: 13px 20px; min-height: 44px; cursor: pointer;" style-hover="background: #8c0c17;">Delete scenario</button>
+        <a href="#components" style="font-size: 17px; font-weight: 600; color: #4a2e8f;">Or cancel and go back</a>
+        <button type="button" disabled="disabled" style="font-family: inherit; font-size: 17px; font-weight: 600; color: #5c5c5c; background: #eeeeee; border: 0; padding: 13px 20px; min-height: 44px; cursor: not-allowed;">Disabled</button>
+      </div>
+      <p style="margin: 0; font-size: 16px; line-height: 1.5; max-width: 80ch; color: #5c5c5c;">The GDS 2px bottom “shadow” and its 2px press travel are dropped — flat, square, 44px minimum. Hit area and focus behaviour are unchanged.</p>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 12px;">
+      <h3 style="margin: 0; font-size: 21px; font-weight: 700;">Filter panel and form fields</h3>
+      <div style="background: #f8f8f8; padding: 24px;">
+        <div style="background: #eeeeee; padding: 24px; display: flex; flex-direction: column; gap: 20px;">
+          <h4 style="margin: 0; font-size: 21px; font-weight: 700;">Filter</h4>
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;">
+            <label style="display: flex; flex-direction: column; gap: 6px;">
+              <span style="font-size: 17px; font-weight: 600;">Environment</span>
+              <select style="font-family: inherit; font-size: 17px; padding: 10px 12px; min-height: 44px; border: 2px solid #262626; background: #ffffff; color: #262626;"><option>All environments</option><option>Staging</option></select>
+            </label>
+            <label style="display: flex; flex-direction: column; gap: 6px;">
+              <span style="font-size: 17px; font-weight: 600;">Epic</span>
+              <select style="font-family: inherit; font-size: 17px; padding: 10px 12px; min-height: 44px; border: 2px solid #262626; background: #ffffff; color: #262626;"><option>All epics</option><option>CFIX</option></select>
+            </label>
+            <label style="display: flex; flex-direction: column; gap: 6px;">
+              <span style="font-size: 17px; font-weight: 600;">Search scenario or identifier</span>
+              <input type="text" placeholder="e.g. RQ120948196" style="font-family: inherit; font-size: 17px; padding: 10px 12px; min-height: 44px; border: 2px solid #262626; background: #ffffff; color: #262626;">
+              <span style="font-size: 15px; color: #5c5c5c;">Matches title and identifier</span>
+            </label>
+          </div>
+          <div style="display: flex; gap: 12px; align-items: center;">
+            <button type="button" style="font-family: inherit; font-size: 17px; font-weight: 600; color: #ffffff; background: #6f58b9; border: 0; padding: 13px 20px; min-height: 44px; cursor: pointer;">Apply filters</button>
+            <a href="#components" style="font-size: 17px; font-weight: 600;">Clear all</a>
+          </div>
+        </div>
+      </div>
+      <p style="margin: 0; font-size: 16px; line-height: 1.5; max-width: 80ch; color: #5c5c5c;">Grey block replaces MoJ <span style="font-family: 'IBM Plex Mono', monospace; font-size: 14px;">moj-filter</span>'s blue-bordered panel. Inputs keep the 2px ink border and 44px height from GOV.UK — that part was right.</p>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 12px;">
+      <h3 style="margin: 0; font-size: 21px; font-weight: 700;">Tags and status</h3>
+      <div style="background: #f8f8f8; padding: 24px; display: flex; gap: 12px; flex-wrap: wrap; align-items: center;">
+        <span style="font-size: 15px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #1f6e74; background: #ffffff; box-shadow: inset 0 0 0 2px #339fa7; padding: 6px 10px;">Passed</span>
+        <span style="font-size: 15px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #b3111f; background: #ffffff; box-shadow: inset 0 0 0 2px #e52a3b; padding: 6px 10px;">Failed</span>
+        <span style="font-size: 15px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #262626; background: #ffd026; padding: 6px 10px;">In progress</span>
+        <span style="font-size: 15px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #4a2e8f; background: #ffffff; box-shadow: inset 0 0 0 2px #6f58b9; padding: 6px 10px;">Staging</span>
+        <span style="font-size: 15px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5c5c5c; background: #ffffff; box-shadow: inset 0 0 0 2px #d8d8d8; padding: 6px 10px;">Draft</span>
+      </div>
+      <p style="margin: 0; font-size: 16px; line-height: 1.5; max-width: 80ch; color: #5c5c5c;">Outlined, square, uppercase — replaces the GOV.UK pastel-fill tag set. Status is never colour alone: the word carries the meaning.</p>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 12px;">
+      <h3 style="margin: 0; font-size: 21px; font-weight: 700;">Scenario table</h3>
+      <div style="background: #f8f8f8; padding: 24px; display: flex; flex-direction: column; gap: 12px;">
+        <span style="font-size: 17px; color: #5c5c5c;">Showing <strong style="color: #262626;">3</strong> of 3 scenarios</span>
+        <table style="width: 100%; border-collapse: collapse; background: #ffffff; font-variant-numeric: tabular-nums;">
+          <thead>
+            <tr style="background: #eeeeee;">
+              <th style="text-align: left; font-size: 15px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 12px 16px; border-bottom: 2px solid #262626; width: 72px;">ID</th>
+              <th style="text-align: left; font-size: 15px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 12px 16px; border-bottom: 2px solid #262626;">Environment</th>
+              <th style="text-align: left; font-size: 15px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 12px 16px; border-bottom: 2px solid #262626;">Epic</th>
+              <th style="text-align: left; font-size: 15px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 12px 16px; border-bottom: 2px solid #262626;">Scenario</th>
+              <th style="text-align: left; font-size: 15px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 12px 16px; border-bottom: 2px solid #262626;">Identifier</th>
+              <th style="text-align: left; font-size: 15px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 12px 16px; border-bottom: 2px solid #262626;">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="padding: 14px 16px; font-family: 'IBM Plex Mono', monospace; font-size: 16px; border-bottom: 1px solid #d8d8d8;">1</td>
+              <td style="padding: 14px 16px; font-size: 17px; border-bottom: 1px solid #d8d8d8;">Staging</td>
+              <td style="padding: 14px 16px; font-size: 17px; border-bottom: 1px solid #d8d8d8;">CFIX</td>
+              <td style="padding: 14px 16px; font-size: 17px; border-bottom: 1px solid #d8d8d8;"><a href="#components" style="font-weight: 600;">Case with community order</a></td>
+              <td style="padding: 14px 16px; font-family: 'IBM Plex Mono', monospace; font-size: 16px; border-bottom: 1px solid #d8d8d8;">RQ120948196</td>
+              <td style="padding: 14px 16px; border-bottom: 1px solid #d8d8d8;"><span style="font-size: 15px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #1f6e74; box-shadow: inset 0 0 0 2px #339fa7; padding: 4px 8px;">Passed</span></td>
+            </tr>
+            <tr style="background: #f8f8f8;">
+              <td style="padding: 14px 16px; font-family: 'IBM Plex Mono', monospace; font-size: 16px; border-bottom: 1px solid #d8d8d8;">2</td>
+              <td style="padding: 14px 16px; font-size: 17px; border-bottom: 1px solid #d8d8d8;">Staging</td>
+              <td style="padding: 14px 16px; font-size: 17px; border-bottom: 1px solid #d8d8d8;">CFIX</td>
+              <td style="padding: 14px 16px; font-size: 17px; border-bottom: 1px solid #d8d8d8;"><a href="#components" style="font-weight: 600;">Remand case, no fixed address</a></td>
+              <td style="padding: 14px 16px; font-family: 'IBM Plex Mono', monospace; font-size: 16px; border-bottom: 1px solid #d8d8d8;">RQ120948204</td>
+              <td style="padding: 14px 16px; border-bottom: 1px solid #d8d8d8;"><span style="font-size: 15px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #b3111f; box-shadow: inset 0 0 0 2px #e52a3b; padding: 4px 8px;">Failed</span></td>
+            </tr>
+            <tr>
+              <td style="padding: 14px 16px; font-family: 'IBM Plex Mono', monospace; font-size: 16px; border-bottom: 1px solid #d8d8d8;">3</td>
+              <td style="padding: 14px 16px; font-size: 17px; border-bottom: 1px solid #d8d8d8;">Pre-prod</td>
+              <td style="padding: 14px 16px; font-size: 17px; border-bottom: 1px solid #d8d8d8;">SENT</td>
+              <td style="padding: 14px 16px; font-size: 17px; border-bottom: 1px solid #d8d8d8;"><a href="#components" style="font-weight: 600;">Suspended sentence with requirements</a></td>
+              <td style="padding: 14px 16px; font-family: 'IBM Plex Mono', monospace; font-size: 16px; border-bottom: 1px solid #d8d8d8;">RQ120948311</td>
+              <td style="padding: 14px 16px; border-bottom: 1px solid #d8d8d8;"><span style="font-size: 15px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #262626; background: #ffd026; padding: 4px 8px;">In progress</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="margin: 0; font-size: 16px; line-height: 1.5; max-width: 80ch; color: #5c5c5c;">Keeps <span style="font-family: 'IBM Plex Mono', monospace; font-size: 14px;">govuk-table</span> markup and the caption/scope attributes. Adds: grey uppercase head with a 2px ink rule, 1px row rules, zebra tint, tabular figures, mono identifiers.</p>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 12px;">
+      <h3 style="margin: 0; font-size: 21px; font-weight: 700;">Scenario detail — summary list, notification, error summary</h3>
+      <div style="background: #f8f8f8; padding: 24px; display: flex; flex-direction: column; gap: 20px;">
+        <div style="background: #ffffff; box-shadow: inset 0 0 0 2px #b3111f; padding: 20px; display: flex; flex-direction: column; gap: 8px;">
+          <h4 style="margin: 0; font-size: 21px; font-weight: 700; color: #b3111f;">There is a problem</h4>
+          <ul style="margin: 0; padding-left: 20px; font-size: 17px; line-height: 1.5;"><li><a href="#components" style="color: #b3111f;">Enter an identifier</a></li></ul>
+        </div>
+        <div style="background: #6f58b9; color: #ffffff; padding: 20px; display: flex; flex-direction: column; gap: 6px;">
+          <span style="font-size: 15px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;">Success</span>
+          <span style="font-size: 21px; font-weight: 700;">Scenario 3 updated</span>
+        </div>
+        <dl style="margin: 0; display: grid; grid-template-columns: 240px 1fr; background: #ffffff;">
+          <dt style="padding: 14px 16px 14px 0; font-size: 17px; font-weight: 700; border-bottom: 1px solid #d8d8d8;">Environment</dt>
+          <dd style="margin: 0; padding: 14px 0; font-size: 17px; border-bottom: 1px solid #d8d8d8;">Staging</dd>
+          <dt style="padding: 14px 16px 14px 0; font-size: 17px; font-weight: 700; border-bottom: 1px solid #d8d8d8;">Epic</dt>
+          <dd style="margin: 0; padding: 14px 0; font-size: 17px; border-bottom: 1px solid #d8d8d8;">CFIX</dd>
+          <dt style="padding: 14px 16px 14px 0; font-size: 17px; font-weight: 700; border-bottom: 1px solid #d8d8d8;">Identifier</dt>
+          <dd style="margin: 0; padding: 14px 0; font-family: 'IBM Plex Mono', monospace; font-size: 16px; border-bottom: 1px solid #d8d8d8;">RQ120948196</dd>
+          <dt style="padding: 14px 16px 14px 0; font-size: 17px; font-weight: 700;">Last run</dt>
+          <dd style="margin: 0; padding: 14px 0; font-family: 'IBM Plex Mono', monospace; font-size: 16px;">2026-08-14 09:32</dd>
+        </dl>
+      </div>
+      <p style="margin: 0; font-size: 16px; line-height: 1.5; max-width: 80ch; color: #5c5c5c;">Error summary keeps GOV.UK behaviour exactly — focused on load, links jump to the field. Only the red is retuned. The purple notification banner replaces the GDS blue one.</p>
+    </div>
+  </div>
+
+  <div id="migration" style="padding: 8px 56px 56px; display: flex; flex-direction: column; gap: 24px;">
+    <div style="display: flex; flex-direction: column; gap: 8px;">
+      <h2 style="margin: 0; font-size: 15px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #5c5c5c;">Migration</h2>
+      <p style="margin: 0; font-size: 17px; line-height: 1.5; max-width: 70ch;">Five phases, each shippable on its own. The full instructions — token file, class-by-class overrides, files to touch, acceptance checks — are in <a href="MIGRATION.md">MIGRATION.md</a>, written for Claude Code to work through in order.</p>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 2px;">
+      <div style="background: #eeeeee; padding: 20px; display: flex; flex-direction: column; gap: 8px;">
+        <span style="font-size: 15px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #4a2e8f;">Phase 1</span>
+        <h3 style="margin: 0; font-size: 19px; font-weight: 700;">Tokens</h3>
+        <p style="margin: 0; font-size: 16px; line-height: 1.5;">Add <span style="font-family: 'IBM Plex Mono', monospace; font-size: 14px;">tokens.css</span> with custom properties and the two webfonts. Nothing visibly changes.</p>
+      </div>
+      <div style="background: #eeeeee; padding: 20px; display: flex; flex-direction: column; gap: 8px;">
+        <span style="font-size: 15px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #4a2e8f;">Phase 2</span>
+        <h3 style="margin: 0; font-size: 19px; font-weight: 700;">Chrome</h3>
+        <p style="margin: 0; font-size: 16px; line-height: 1.5;">Replace header and footer templates. Crown, OGL and the black bar come out. Highest-visibility, lowest-risk win.</p>
+      </div>
+      <div style="background: #eeeeee; padding: 20px; display: flex; flex-direction: column; gap: 8px;">
+        <span style="font-size: 15px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #4a2e8f;">Phase 3</span>
+        <h3 style="margin: 0; font-size: 19px; font-weight: 700;">Type &amp; colour</h3>
+        <p style="margin: 0; font-size: 16px; line-height: 1.5;">Override the GOV.UK link, focus, body and heading rules. GDS Transport removed from the build.</p>
+      </div>
+      <div style="background: #eeeeee; padding: 20px; display: flex; flex-direction: column; gap: 8px;">
+        <span style="font-size: 15px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #4a2e8f;">Phase 4</span>
+        <h3 style="margin: 0; font-size: 19px; font-weight: 700;">Components</h3>
+        <p style="margin: 0; font-size: 16px; line-height: 1.5;">Buttons, tags, tables, panels, notifications, summary lists. MoJ filter panel restyled or replaced.</p>
+      </div>
+      <div style="background: #eeeeee; padding: 20px; display: flex; flex-direction: column; gap: 8px;">
+        <span style="font-size: 15px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #4a2e8f;">Phase 5</span>
+        <h3 style="margin: 0; font-size: 19px; font-weight: 700;">Cut the dependency</h3>
+        <p style="margin: 0; font-size: 16px; line-height: 1.5;">Drop unused govuk/MoJ CSS, keep the JS behaviours worth keeping, run the accessibility checklist.</p>
+      </div>
+    </div>
+    <div style="background: #262626; color: #ffffff; padding: 32px; display: flex; flex-direction: column; gap: 12px;">
+      <h3 style="margin: 0; font-size: 24px; font-weight: 700;">Non-negotiables for whoever does the work</h3>
+      <ul style="margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 8px; font-size: 17px; line-height: 1.5; max-width: 90ch;">
+        <li>No GOV.UK or Crown branding, no OGL licence statement, no GDS Transport, no <span style="font-family: 'IBM Plex Mono', monospace; font-size: 15px;">#1d70b8</span> — anywhere, including favicons, meta theme-color and print styles.</li>
+        <li>Focus states are never removed or restyled to something weaker than yellow + ink underline.</li>
+        <li>Every status conveyed by colour also carries a word.</li>
+        <li>Contrast is checked, not assumed: 4.5:1 body text, 3:1 non-text boundaries and 44px minimum targets.</li>
+        <li>Keep GOV.UK's markup and JS behaviours (error summary focus, skip link, character count, accessible autocomplete) even after the styles diverge.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+</x-dc>
+</body>
+</html>
