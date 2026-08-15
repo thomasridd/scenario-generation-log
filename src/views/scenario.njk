@@ -57,16 +57,61 @@
       {% endif %}
 
       <h2 class="govuk-heading-m">Note</h2>
-      <form method="post" action="/scenario/{{ scenario.id }}/note">
-        {{ govukTextarea({
-          id: "note",
-          name: "note",
-          label: { text: "Note", classes: "govuk-visually-hidden" },
-          value: scenario.note,
-          attributes: { maxlength: 5000 }
-        }) }}
-        {{ govukButton({ text: "Update note" }) }}
-      </form>
+      <div class="sl-note" data-note>
+        <div data-note-view>
+          <p class="govuk-body sl-note__display" data-note-display>{{ scenario.note or "No note recorded." }}</p>
+          {{ govukButton({
+            text: "Edit note",
+            classes: "govuk-button--secondary",
+            attributes: { "data-note-edit": "" }
+          }) }}
+        </div>
+
+        <form method="post" action="/scenario/{{ scenario.id }}/note" data-note-form hidden>
+          {{ govukTextarea({
+            id: "note",
+            name: "note",
+            label: { text: "Note", classes: "govuk-visually-hidden" },
+            value: scenario.note,
+            attributes: { maxlength: 5000 }
+          }) }}
+          <div class="govuk-button-group">
+            {{ govukButton({ text: "Update note" }) }}
+            {{ govukButton({
+              text: "Cancel",
+              classes: "govuk-button--secondary",
+              attributes: { type: "button", "data-note-cancel": "" }
+            }) }}
+          </div>
+        </form>
+      </div>
     </div>
   </div>
+{% endblock %}
+
+{% block bodyEnd %}
+  {{ super() }}
+  <script type="module">
+    const note = document.querySelector("[data-note]");
+    if (note) {
+      const view = note.querySelector("[data-note-view]");
+      const editButton = note.querySelector("[data-note-edit]");
+      const form = note.querySelector("[data-note-form]");
+      const cancelButton = note.querySelector("[data-note-cancel]");
+      const textarea = form.querySelector("textarea");
+      const originalValue = textarea.value;
+
+      editButton.addEventListener("click", () => {
+        view.hidden = true;
+        form.hidden = false;
+        textarea.focus();
+      });
+
+      cancelButton.addEventListener("click", () => {
+        textarea.value = originalValue;
+        form.hidden = true;
+        view.hidden = false;
+      });
+    }
+  </script>
 {% endblock %}

@@ -210,3 +210,9 @@
 .govuk-textarea {
   min-height: 44px;
 }
+
+/* 9. Note edit toggle --------------------------------------------------- */
+
+.sl-note__display {
+  white-space: pre-wrap;
+}
