@@ -35,6 +35,35 @@ function formatTimestamp(value: Date): string {
   }).format(value);
 }
 
+function isToday(value: Date): boolean {
+  const now = new Date();
+  return (
+    value.getFullYear() === now.getFullYear() &&
+    value.getMonth() === now.getMonth() &&
+    value.getDate() === now.getDate()
+  );
+}
+
+function formatListTimestamp(value: Date): string {
+  const time = new Intl.DateTimeFormat("en-GB", {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  }).format(value);
+
+  if (isToday(value)) {
+    return time;
+  }
+
+  const date = new Intl.DateTimeFormat("en-GB", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+  }).format(value);
+
+  return `${time} ${date}`;
+}
+
 function toQueryString(params: Record<string, string | number | undefined>) {
   const search = new URLSearchParams();
   for (const [key, value] of Object.entries(params)) {
@@ -132,7 +161,10 @@ webRouter.get("/", async (req, res, next) => {
         : null;
 
     res.render("index.njk", {
-      scenarios: rows,
+      scenarios: rows.map((row) => ({
+        ...row,
+        createdFormatted: formatListTimestamp(row.created_timestamp),
+      })),
       total,
       totalPages,
       currentPage,
