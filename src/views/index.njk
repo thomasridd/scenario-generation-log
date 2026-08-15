@@ -63,25 +63,23 @@
           <table class="govuk-table">
             <thead class="govuk-table__head">
               <tr class="govuk-table__row">
-                <th scope="col" class="govuk-table__header">ID</th>
                 <th scope="col" class="govuk-table__header">Environment</th>
                 <th scope="col" class="govuk-table__header">Epic</th>
                 <th scope="col" class="govuk-table__header">Scenario</th>
                 <th scope="col" class="govuk-table__header">Identifier</th>
+                <th scope="col" class="govuk-table__header">Created</th>
               </tr>
             </thead>
             <tbody class="govuk-table__body">
               {% for s in scenarios %}
                 <tr class="govuk-table__row">
-                  <td class="govuk-table__cell">
-                    <a class="govuk-link sl-mono" href="/scenario/{{ s.id }}">{{ s.id }}</a>
-                  </td>
                   <td class="govuk-table__cell">{{ s.env }}</td>
                   <td class="govuk-table__cell">{{ s.epic }}</td>
-                  <td class="govuk-table__cell">
-                    <a class="govuk-link" href="/scenario/{{ s.id }}">{{ s.scenario }}</a>
+                  <td class="govuk-table__cell">{{ s.scenario }}</td>
+                  <td class="govuk-table__cell sl-mono">
+                    <a class="govuk-link" href="/scenario/{{ s.id }}">{{ s.identifier }}</a>
                   </td>
-                  <td class="govuk-table__cell sl-mono">{{ s.identifier }}</td>
+                  <td class="govuk-table__cell">{{ s.createdFormatted }}</td>
                 </tr>
               {% endfor %}
             </tbody>
