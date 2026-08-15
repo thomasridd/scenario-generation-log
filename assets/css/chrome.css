@@ -61,25 +61,33 @@
 }
 
 .sl-header__bars {
-  display: flex;
-  align-items: center;
-  gap: 3px;
+  position: relative;
+  width: 20px;
+  height: 20px;
+  flex: none;
 }
 
 .sl-header__bar {
+  position: absolute;
   width: 4px;
-  height: 18px;
+  height: 10px;
 }
 
 .sl-header__bar--red {
+  top: 0;
+  left: 8px;
   background: var(--sl-red);
 }
 
 .sl-header__bar--yellow {
+  top: 10px;
+  left: 0;
   background: var(--sl-yellow);
 }
 
 .sl-header__bar--teal {
+  top: 10px;
+  left: 16px;
   background: var(--sl-teal);
 }
 
