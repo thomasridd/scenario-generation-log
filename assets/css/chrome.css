@@ -60,27 +60,22 @@
   font-weight: 700;
 }
 
-.sl-header__bars {
-  display: flex;
-  align-items: center;
-  gap: 3px;
+.sl-header__ring {
+  width: 20px;
+  height: 20px;
+  flex: none;
 }
 
-.sl-header__bar {
-  width: 4px;
-  height: 18px;
+.sl-header__ring-segment--red {
+  stroke: var(--sl-red);
 }
 
-.sl-header__bar--red {
-  background: var(--sl-red);
+.sl-header__ring-segment--yellow {
+  stroke: var(--sl-yellow);
 }
 
-.sl-header__bar--yellow {
-  background: var(--sl-yellow);
-}
-
-.sl-header__bar--teal {
-  background: var(--sl-teal);
+.sl-header__ring-segment--teal {
+  stroke: var(--sl-teal);
 }
 
 .sl-header__nav-list {

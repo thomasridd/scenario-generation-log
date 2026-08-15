@@ -12,11 +12,11 @@
   <div class="sl-header__container">
     <a class="sl-header__wordmark" href="/">
       <span class="sl-header__service-name">Scenario generator log</span>
-      <span class="sl-header__bars" aria-hidden="true">
-        <span class="sl-header__bar sl-header__bar--red"></span>
-        <span class="sl-header__bar sl-header__bar--yellow"></span>
-        <span class="sl-header__bar sl-header__bar--teal"></span>
-      </span>
+      <svg class="sl-header__ring" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
+        <circle class="sl-header__ring-segment sl-header__ring-segment--red" cx="32" cy="32" r="20" fill="none" stroke-width="14" stroke-dasharray="41.89 83.78" transform="rotate(-90 32 32)"/>
+        <circle class="sl-header__ring-segment sl-header__ring-segment--yellow" cx="32" cy="32" r="20" fill="none" stroke-width="14" stroke-dasharray="41.89 83.78" stroke-dashoffset="-41.89" transform="rotate(-90 32 32)"/>
+        <circle class="sl-header__ring-segment sl-header__ring-segment--teal" cx="32" cy="32" r="20" fill="none" stroke-width="14" stroke-dasharray="41.89 83.78" stroke-dashoffset="-83.78" transform="rotate(-90 32 32)"/>
+      </svg>
     </a>
 
     {% if navItems and navItems.length %}
