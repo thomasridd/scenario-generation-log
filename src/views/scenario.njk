@@ -14,6 +14,7 @@
 {% block content %}
   {% set linkHtml %}{% if scenario.link %}<a class="govuk-link" href="{{ scenario.link }}">{{ scenario.link }}</a>{% endif %}{% endset %}
   {% set idHtml %}<span class="sl-mono">{{ scenario.id }}</span>{% endset %}
+  {% set identifierHtml %}<span class="sl-mono">{{ scenario.identifier }}</span>{% endset %}
   {% set createdHtml %}<span class="sl-mono">{{ createdFormatted }}</span>{% endset %}
 
   <div class="govuk-grid-row">
@@ -27,7 +28,7 @@
           { key: { text: "Environment" }, value: { text: scenario.env } },
           { key: { text: "Epic" }, value: { text: scenario.epic } },
           { key: { text: "Scenario" }, value: { text: scenario.scenario } },
-          { key: { text: "Identifier" }, value: { text: scenario.identifier } },
+          { key: { text: "Identifier" }, value: { html: identifierHtml } },
           { key: { text: "Link" }, value: { html: linkHtml } },
           { key: { text: "Created" }, value: { html: createdHtml } }
         ]
