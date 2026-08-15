@@ -1,0 +1,121 @@
+/*
+ * Type and colour overrides. design-system/MIGRATION.md, phase 3.
+ *
+ * Loaded after tokens.css and chrome.css. Overrides GOV.UK classes rather
+ * than editing node_modules, per the top-level migration rule.
+ *
+ * Colour: GOV.UK Frontend 6.x's own compiled CSS reads every functional
+ * colour through a `--govuk-*-colour` custom property with a static
+ * fallback (e.g. `color: var(--govuk-link-colour, #1a65a6)`), consumed by
+ * essentially every component - links, buttons, inputs, tables, error
+ * summary, and more. Redefining those custom properties here recolours all
+ * of it in one place while leaving GOV.UK's own hover/focus *mechanics*
+ * (box-shadow shapes, outline widths, the multi-line focus fix) completely
+ * untouched, matching "do not touch focus visibility" below. Only the
+ * properties named in MIGRATION.md's phase 3 table are touched here -
+ * --govuk-brand-colour, --govuk-error-colour, --govuk-border-colour, etc.
+ * belong to components phase 4/5 own (header/notification-banner, error
+ * summary, tables/inputs) and are left at their GOV.UK defaults for now.
+ *
+ * Do not touch: heading hierarchy, focus visibility, :focus-visible
+ * support, reduced-motion handling, or the 1.5 line-height minimum.
+ */
+
+:root {
+  --govuk-link-colour: var(--sl-purple-dark);
+  --govuk-link-visited-colour: var(--sl-purple-dark);
+  --govuk-link-hover-colour: var(--sl-ink);
+  /* Not named in the phase 3 table explicitly, but GOV.UK's own default
+     link-active colour is a near-black that would otherwise sit oddly
+     next to the recoloured link/hover states - same "no separate blue
+     tint" reasoning extends to it. */
+  --govuk-link-active-colour: var(--sl-ink);
+
+  --govuk-focus-colour: var(--sl-yellow);
+  --govuk-focus-text-colour: var(--sl-ink);
+
+  --govuk-text-colour: var(--sl-ink);
+  --govuk-secondary-text-colour: var(--sl-ink-muted);
+}
+
+/* GOV.UK's own hover underline is already >=3px via a max() clamp, so no
+   override needed there - only the colour swap above was required. */
+
+.govuk-width-container {
+  max-width: var(--sl-max-width);
+  margin-right: var(--sl-gutter);
+  margin-left: var(--sl-gutter);
+}
+
+@media (max-width: 639px) {
+  .govuk-width-container {
+    margin-right: 32px;
+    margin-left: 32px;
+  }
+}
+
+/* Type scale (§3). Sizes only - GOV.UK's own font-weight/margin rules are
+   left as-is except where the scale explicitly changes them. */
+
+.govuk-heading-l {
+  font-size: 48px;
+  line-height: 1.1;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.govuk-heading-m {
+  font-size: 32px;
+  line-height: 1.2;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.govuk-heading-s {
+  font-size: 21px;
+  line-height: 1.4;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.govuk-body,
+.govuk-body-m {
+  font-size: 19px;
+  line-height: 1.55;
+  font-weight: 400;
+  max-width: 70ch;
+}
+
+.govuk-hint {
+  font-size: 15px;
+}
+
+/* "UI" scale (17px) - applied to general-purpose interactive/navigational
+   text that isn't owned by a named phase 4 component (buttons, inputs,
+   selects and textareas keep their GOV.UK sizing for now; phase 4 defines
+   their complete treatment, sizing included). */
+.govuk-label,
+.govuk-back-link,
+.govuk-pagination__link {
+  font-size: 17px;
+}
+
+/* Section eyebrows utility - not yet applied to any markup (nothing in the
+   app needs one today), defined here since it's part of the documented
+   type scale. */
+.sl-eyebrow {
+  font-size: 15px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+}
+
+/* Monospace utility for identifiers, IDs and timestamps (§3), and tabular
+   figures on every table so numeric columns stay aligned. */
+.sl-mono {
+  font-family: var(--sl-mono);
+}
+
+.govuk-table {
+  font-variant-numeric: tabular-nums;
+}
