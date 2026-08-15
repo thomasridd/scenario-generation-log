@@ -18,6 +18,8 @@ GOV.UK Frontend.
 ## Project layout
 
 ```
+assets/css/       Our own CSS (design tokens, component overrides)
+assets/fonts/     Self-hosted webfonts (see docs/licences.md)
 migrations/       Plain SQL migration files
 scripts/          Migration runner + static asset copy script
 scss/app.scss     Entry point that pulls in MoJ/GOV.UK Frontend styles

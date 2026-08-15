@@ -1,5 +1,19 @@
 // MoJ Frontend configures GOV.UK Frontend's settings (asset paths, fonts) via
 // `with (...)`, so it must be @used before GOV.UK Frontend's own index, which
 // then reuses that configuration to compile the full set of GOV.UK components.
-@use "@ministryofjustice/frontend/moj/all";
+//
+// $moj-font-family is the actual configuration point for typeface: MoJ's own
+// vendored copy of GOV.UK Frontend (moj/vendor/govuk-frontend/_index.scss)
+// forwards $moj-font-family into GOV.UK Frontend's $govuk-font-family, and
+// that `base` module is already loaded and locked in by the time this file's
+// own `@use` of govuk-frontend/dist/govuk/index runs below — so configuring
+// $govuk-font-family directly here would error ("already loaded"). Overriding
+// $moj-font-family instead covers GOV.UK Frontend's typography *and* MoJ's
+// own component styles (header, filter, action bar) in one place. GDS
+// Transport's @font-face declarations are already switched off by MoJ
+// Frontend ($moj-include-default-font-face is false), so there's nothing
+// else to disable here.
+@use "@ministryofjustice/frontend/moj/all" with (
+  $moj-font-family: var(--sl-font)
+);
 @use "govuk-frontend/dist/govuk/index";
