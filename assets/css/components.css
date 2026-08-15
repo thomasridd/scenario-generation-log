@@ -154,28 +154,25 @@
   background-color: var(--sl-ink);
 }
 
-/* 3-up grid of filter fields at >=768px, single column below. Wraps the
+/* Single column of filter fields at every viewport width. Wraps the
    env/epic/search fields (index.njk) - the only markup addition in this
    phase, since there's no existing hook to grid just the fields without
-   also grid-placing the "Apply filters" button above them. */
+   also grid-placing the "Apply filters" button above them.
+   moj-filter-layout keeps the filter panel a narrow column/overlay
+   (~385px max-width) even at wide viewports, so a viewport-width-based
+   breakpoint that tried to go 3-up never had room to and just squeezed
+   the fields - the panel's own available width never grows, so the
+   fields stay stacked the same way the mobile view already does. */
 .sl-filter-grid {
   display: grid;
   grid-template-columns: 1fr;
   gap: var(--sl-4);
 }
 
-@media (min-width: 768px) {
-  .sl-filter-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-/* GOV.UK's select has a min-width of 11.5em (~184px) - three of those
-   can't fit in the filter panel's own ~385px max-width (moj-filter-layout
-   keeps the panel a narrow column/overlay even in its "open" state), so
-   without this the grid blows out past its container. min-width: 0
-   overrides the browser's default "don't shrink grid items below their
-   content's intrinsic size" behaviour. */
+/* GOV.UK's select has a min-width of 11.5em (~184px), wider than the
+   filter panel's own column - min-width: 0 overrides the browser's
+   default "don't shrink grid items below their content's intrinsic
+   size" behaviour so the field still fits. */
 .sl-filter-grid > .govuk-form-group {
   min-width: 0;
 }
