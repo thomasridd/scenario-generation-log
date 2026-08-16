@@ -227,7 +227,12 @@
   max-width: 70ch;
 }
 
+/* GOV.UK Frontend only sets font-family on elements carrying its own
+   typography classes, not globally - see chrome.css. .sl-card-grid's
+   markup carries no GOV.UK classes, so without this it falls back to the
+   browser default serif. */
 .sl-card-grid {
+  font-family: var(--sl-font);
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: var(--sl-4);
