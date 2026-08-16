@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { insertScenario } from "../db";
+import { DEFAULT_TEAM, insertScenario } from "../db";
 import { scenarioInputSchema } from "../validation";
 
 export const apiRouter = Router();
@@ -19,6 +19,7 @@ apiRouter.post("/scenario", async (req, res, next) => {
 
   try {
     const row = await insertScenario({
+      team: input.team ?? DEFAULT_TEAM,
       env: input.env,
       epic: input.epic,
       scenario: input.scenario,
@@ -30,6 +31,7 @@ apiRouter.post("/scenario", async (req, res, next) => {
 
     res.status(201).json({
       id: row.id,
+      team: row.team,
       env: row.env,
       epic: row.epic,
       scenario: row.scenario,

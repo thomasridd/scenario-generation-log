@@ -2,6 +2,7 @@
 
 {% from "govuk/components/pagination/macro.njk" import govukPagination %}
 {% from "moj/components/filter/macro.njk" import mojFilter %}
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
 
 {% set filterFieldsHtml %}
   <div class="sl-filter-grid">
@@ -32,10 +33,15 @@
   </div>
 {% endset %}
 
-{% block content %}
-  <h1 class="govuk-heading-l">Scenario log</h1>
+{% block backLink %}
+  {{ govukBackLink({ text: "Back to teams", href: "/" }) }}
+{% endblock %}
 
-  <form method="get" action="/">
+{% block content %}
+  <span class="govuk-caption-l">Scenario log</span>
+  <h1 class="govuk-heading-l">{{ team }}</h1>
+
+  <form method="get" action="{{ scenariosHref }}">
     <input type="hidden" name="pageSize" value="{{ pageSize }}">
 
     <div class="moj-filter-layout">

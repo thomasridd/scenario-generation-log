@@ -6,6 +6,7 @@ export const dataItemSchema = z.object({
 });
 
 export const scenarioInputSchema = z.object({
+  team: z.string().trim().min(1).max(255).optional(),
   env: z.string().trim().min(1).max(255),
   epic: z.string().trim().min(1).max(255),
   scenario: z.string().trim().min(1).max(255),
