@@ -216,3 +216,57 @@
 .sl-note__display {
   white-space: pre-wrap;
 }
+
+/* 10. Homepage / team cards ----------------------------------------------
+   Same flat language as everywhere else in the app - 2px border, square
+   corners, no shadow. Separation on hover/focus comes from a border colour
+   change and a tint fill, matching the button and header wordmark states
+   above rather than introducing a new "raised card" affordance. */
+
+.sl-intro {
+  max-width: 70ch;
+}
+
+.sl-card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: var(--sl-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.sl-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sl-1);
+  min-height: 44px;
+  padding: var(--sl-5);
+  border: 2px solid var(--sl-border);
+  background-color: var(--sl-white);
+  color: var(--sl-ink);
+  text-decoration: none;
+  transition: border-color var(--sl-transition), background-color var(--sl-transition);
+}
+
+.sl-card:hover {
+  border-color: var(--sl-purple-dark);
+  background-color: var(--sl-tint);
+}
+
+.sl-card:focus {
+  outline: 3px solid var(--sl-yellow);
+  outline-offset: 0;
+  box-shadow: 0 3px 0 0 var(--sl-ink);
+}
+
+.sl-card__title {
+  font-size: 21px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.sl-card__meta {
+  font-size: 15px;
+  color: var(--sl-ink-muted);
+}

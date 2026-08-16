@@ -77,6 +77,16 @@ function toQueryString(params: Record<string, string | number | undefined>) {
 
 webRouter.get("/", async (req, res, next) => {
   try {
+    const teams = await listDistinctValues("team");
+    res.render("home.njk", { teams });
+  } catch (err) {
+    next(err);
+  }
+});
+
+webRouter.get("/scenarios/:team", async (req, res, next) => {
+  try {
+    const team = req.params.team;
     const env = typeof req.query.env === "string" ? req.query.env : undefined;
     const epic =
       typeof req.query.epic === "string" ? req.query.epic : undefined;
@@ -89,7 +99,7 @@ webRouter.get("/", async (req, res, next) => {
     );
 
     const [{ rows, total }, envOptions, epicOptions] = await Promise.all([
-      listScenarios({ env, epic, q, page, pageSize }),
+      listScenarios({ team, env, epic, q, page, pageSize }),
       listDistinctValues("env"),
       listDistinctValues("epic"),
     ]);
@@ -160,7 +170,10 @@ webRouter.get("/", async (req, res, next) => {
           }
         : null;
 
-    res.render("index.njk", {
+    res.render("scenarios.njk", {
+      pageTitle: `${team} - Scenario generator log`,
+      team,
+      scenariosHref: `/scenarios/${encodeURIComponent(team)}`,
       scenarios: rows.map((row) => ({
         ...row,
         createdFormatted: formatListTimestamp(row.created_timestamp),
@@ -208,6 +221,7 @@ webRouter.get("/scenario/:id", async (req, res, next) => {
     res.render("scenario.njk", {
       pageTitle: `${scenario.scenario} - Scenario generator log`,
       scenario,
+      scenariosHref: `/scenarios/${encodeURIComponent(scenario.team)}`,
       data,
       createdFormatted: formatTimestamp(scenario.created_timestamp),
     });

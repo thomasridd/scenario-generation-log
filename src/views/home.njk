@@ -1,0 +1,32 @@
+{% extends "layout.njk" %}
+
+{% set pageTitle = "Scenario generator log" %}
+
+{% block content %}
+  <h1 class="govuk-heading-l">Scenario generator log</h1>
+
+  <section class="sl-intro">
+    <p class="govuk-body">
+      A log of test scenarios seeded by data-seeding scripts across staging
+      environments. Each team keeps its own scenario log - pick a team below
+      to browse, search and filter the scenarios it has recorded.
+    </p>
+  </section>
+
+  <h2 class="govuk-heading-m">Teams</h2>
+
+  {% if teams.length %}
+    <ul class="sl-card-grid">
+      {% for t in teams %}
+        <li>
+          <a class="sl-card" href="/scenarios/{{ t | urlencode }}">
+            <span class="sl-card__title">{{ t }}</span>
+            <span class="sl-card__meta">View scenario log</span>
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p class="govuk-body">No teams have logged any scenarios yet.</p>
+  {% endif %}
+{% endblock %}

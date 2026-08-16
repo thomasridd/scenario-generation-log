@@ -8,7 +8,7 @@
 {% set pageTitle = scenario.scenario + " - Scenario generator log" %}
 
 {% block backLink %}
-  {{ govukBackLink({ text: "Back to scenario log", href: "/" }) }}
+  {{ govukBackLink({ text: "Back to scenario log", href: scenariosHref }) }}
 {% endblock %}
 
 {% block content %}
@@ -25,6 +25,7 @@
       {{ govukSummaryList({
         rows: [
           { key: { text: "ID" }, value: { html: idHtml } },
+          { key: { text: "Team" }, value: { text: scenario.team } },
           { key: { text: "Environment" }, value: { text: scenario.env } },
           { key: { text: "Epic" }, value: { text: scenario.epic } },
           { key: { text: "Scenario" }, value: { text: scenario.scenario } },

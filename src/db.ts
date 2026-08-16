@@ -11,8 +11,11 @@ export const pool = new Pool({
   ssl: pgSslConfig,
 });
 
+export const DEFAULT_TEAM = "development";
+
 export interface ScenarioRow {
   id: number;
+  team: string;
   env: string;
   epic: string;
   scenario: string;
@@ -24,6 +27,7 @@ export interface ScenarioRow {
 }
 
 export interface ScenarioListFilters {
+  team: string;
   env?: string;
   epic?: string;
   q?: string;
@@ -32,6 +36,7 @@ export interface ScenarioListFilters {
 }
 
 export async function insertScenario(input: {
+  team: string;
   env: string;
   epic: string;
   scenario: string;
@@ -41,10 +46,11 @@ export async function insertScenario(input: {
   note: string | null;
 }): Promise<ScenarioRow> {
   const { rows } = await pool.query<ScenarioRow>(
-    `INSERT INTO scenarios (env, epic, scenario, identifier, link, data, note)
-     VALUES ($1, $2, $3, $4, $5, $6, $7)
+    `INSERT INTO scenarios (team, env, epic, scenario, identifier, link, data, note)
+     VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
      RETURNING *`,
     [
+      input.team,
       input.env,
       input.epic,
       input.scenario,
@@ -84,6 +90,9 @@ export async function listScenarios(
   const conditions: string[] = [];
   const params: unknown[] = [];
 
+  params.push(filters.team);
+  conditions.push(`team = $${params.length}`);
+
   if (filters.env) {
     params.push(filters.env);
     conditions.push(`env = $${params.length}`);
@@ -122,7 +131,7 @@ export async function listScenarios(
 }
 
 export async function listDistinctValues(
-  column: "env" | "epic"
+  column: "team" | "env" | "epic"
 ): Promise<string[]> {
   const { rows } = await pool.query<{ value: string }>(
     `SELECT DISTINCT ${column} AS value FROM scenarios ORDER BY ${column} ASC`

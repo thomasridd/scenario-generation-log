@@ -138,8 +138,8 @@ Apps, which provisions it automatically from `app.json`).
 Public endpoint, called by a seeding script at the end of a run.
 
 Required fields: `env`, `epic`, `scenario`, `identifier`.
-Optional fields: `link` (must be an `http(s)` URL), `data` (array of
-`{ field, value }` pairs), `note`.
+Optional fields: `team` (defaults to `development` if omitted), `link` (must
+be an `http(s)` URL), `data` (array of `{ field, value }` pairs), `note`.
 
 `id` and `created_timestamp` are always set server-side.
 
@@ -149,6 +149,7 @@ Example `curl`, suitable for a Postman/Newman post-request script:
 curl -X POST http://localhost:3000/api/scenario \
   -H "Content-Type: application/json" \
   -d '{
+    "team": "payments",
     "env": "Staging",
     "epic": "People report",
     "scenario": "Delete a person",
@@ -167,9 +168,12 @@ with a validation error body.
 
 ## Web UI
 
-- `GET /` — paginated, filterable list of scenarios (filter by environment,
-  epic, or free-text search on scenario/identifier; filters are preserved in
-  the query string, so pages are shareable).
+- `GET /` — homepage, with a card per team linking to that team's scenario
+  log.
+- `GET /scenarios/:team` — paginated, filterable list of scenarios for one
+  team (filter by environment, epic, or free-text search on
+  scenario/identifier; filters are preserved in the query string, so pages
+  are shareable).
 - `GET /scenario/:id` — scenario detail, including the seeded `data` and an
   editable note.
 - `POST /scenario/:id/note` — updates just the `note` field, then redirects
