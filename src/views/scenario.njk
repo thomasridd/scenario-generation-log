@@ -4,6 +4,7 @@
 {% from "govuk/components/textarea/macro.njk" import govukTextarea %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{% from "govuk/components/warning-text/macro.njk" import govukWarningText %}
 
 {% set pageTitle = scenario.scenario + " - Scenario generator log" %}
 
@@ -86,6 +87,38 @@
           </div>
         </form>
       </div>
+
+      <hr class="govuk-section-break govuk-section-break--visible govuk-section-break--m">
+
+      <div class="sl-delete" data-delete>
+        <div data-delete-view>
+          {{ govukButton({
+            text: "Delete scenario",
+            classes: "govuk-button--warning",
+            attributes: { "data-delete-start": "" }
+          }) }}
+        </div>
+
+        <div data-delete-confirm hidden>
+          {{ govukWarningText({
+            text: "You are about to permanently delete this scenario. This action cannot be undone.",
+            iconFallbackText: "Warning"
+          }) }}
+          <form method="post" action="/scenario/{{ scenario.id }}/delete">
+            <div class="govuk-button-group">
+              {{ govukButton({
+                text: "Yes, delete this scenario",
+                classes: "govuk-button--warning"
+              }) }}
+              {{ govukButton({
+                text: "Cancel",
+                classes: "govuk-button--secondary",
+                attributes: { type: "button", "data-delete-cancel": "" }
+              }) }}
+            </div>
+          </form>
+        </div>
+      </div>
     </div>
   </div>
 {% endblock %}
@@ -112,6 +145,26 @@
         textarea.value = originalValue;
         form.hidden = true;
         view.hidden = false;
+      });
+    }
+
+    const deleteSection = document.querySelector("[data-delete]");
+    if (deleteSection) {
+      const view = deleteSection.querySelector("[data-delete-view]");
+      const confirmPanel = deleteSection.querySelector("[data-delete-confirm]");
+      const startButton = deleteSection.querySelector("[data-delete-start]");
+      const cancelButton = deleteSection.querySelector("[data-delete-cancel]");
+
+      startButton.addEventListener("click", () => {
+        view.hidden = true;
+        confirmPanel.hidden = false;
+        cancelButton.focus();
+      });
+
+      cancelButton.addEventListener("click", () => {
+        confirmPanel.hidden = true;
+        view.hidden = false;
+        startButton.focus();
       });
     }
   </script>

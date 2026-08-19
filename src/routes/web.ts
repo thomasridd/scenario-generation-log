@@ -1,5 +1,6 @@
 import { Router } from "express";
 import {
+  deleteScenario,
   findScenarioById,
   listDistinctValues,
   listScenarios,
@@ -251,6 +252,28 @@ webRouter.post("/scenario/:id/note", async (req, res, next) => {
     }
 
     res.redirect(`/scenario/${id}`);
+  } catch (err) {
+    next(err);
+  }
+});
+
+webRouter.post("/scenario/:id/delete", async (req, res, next) => {
+  try {
+    const id = Number(req.params.id);
+    if (!Number.isInteger(id) || id < 1) {
+      res.status(404).render("404.njk");
+      return;
+    }
+
+    const scenario = await findScenarioById(id);
+    if (!scenario) {
+      res.status(404).render("404.njk");
+      return;
+    }
+
+    await deleteScenario(id);
+
+    res.redirect(`/scenarios/${encodeURIComponent(scenario.team)}`);
   } catch (err) {
     next(err);
   }
