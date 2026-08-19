@@ -84,6 +84,13 @@ export async function updateScenarioNote(
   return rows[0] ?? null;
 }
 
+export async function deleteScenario(id: number): Promise<boolean> {
+  const { rowCount } = await pool.query("DELETE FROM scenarios WHERE id = $1", [
+    id,
+  ]);
+  return (rowCount ?? 0) > 0;
+}
+
 export async function listScenarios(
   filters: ScenarioListFilters
 ): Promise<{ rows: ScenarioRow[]; total: number }> {
